@@ -14,7 +14,6 @@ using AR.Drone.Data;
 using AR.Drone.Data.Navigation;
 using AR.Drone.Data.Navigation.Native;
 using AR.Drone.Media;
-using AR.Drone.Video;
 using AR.Drone.Avionics;
 using AR.Drone.Avionics.Objectives;
 using AR.Drone.Avionics.Objectives.IntentObtainers;
@@ -26,13 +25,11 @@ namespace AR.Drone.WinApp
         private const string ARDroneTrackFileExt = ".ardrone";
         private const string ARDroneTrackFilesFilter = "AR.Drone track files (*.ardrone)|*.ardrone";
 
+        private readonly OpenH264Lib.Decoder decoder;
+
         private readonly DroneClient _droneClient;
         private readonly List<PlayerForm> _playerForms;
-        private readonly VideoPacketDecoderWorker _videoPacketDecoderWorker;
         private Settings _settings;
-        private VideoFrame _frame;
-        private Bitmap _frameBitmap;
-        private uint _frameNumber;
         private NavigationData _navigationData;
         private NavigationPacket _navigationPacket;
         private PacketRecorder _packetRecorderWorker;
@@ -43,25 +40,17 @@ namespace AR.Drone.WinApp
         {
             InitializeComponent();
 
-            _videoPacketDecoderWorker = new VideoPacketDecoderWorker(PixelFormat.BGR24, true, OnVideoPacketDecoded);
-            _videoPacketDecoderWorker.Start();
-
             _droneClient = new DroneClient("192.168.1.1");
             _droneClient.NavigationPacketAcquired += OnNavigationPacketAcquired;
             _droneClient.VideoPacketAcquired += OnVideoPacketAcquired;
             _droneClient.NavigationDataAcquired += data => _navigationData = data;
 
+            decoder = new OpenH264Lib.Decoder("openh264-1.7.0-win32.dll");
+
             tmrStateUpdate.Enabled = true;
             tmrVideoUpdate.Enabled = true;
 
             _playerForms = new List<PlayerForm>();
-
-            _videoPacketDecoderWorker.UnhandledException += UnhandledException;
-        }
-
-        private void UnhandledException(object sender, Exception exception)
-        {
-            MessageBox.Show(exception.ToString(), "Unhandled Exception (Ctrl+C)", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -81,7 +70,7 @@ namespace AR.Drone.WinApp
             StopRecording();
 
             _droneClient.Dispose();
-            _videoPacketDecoderWorker.Dispose();
+            decoder.Dispose();
 
             base.OnClosed(e);
         }
@@ -98,15 +87,11 @@ namespace AR.Drone.WinApp
         {
             if (_packetRecorderWorker != null && _packetRecorderWorker.IsAlive)
                 _packetRecorderWorker.EnqueuePacket(packet);
-            if (_videoPacketDecoderWorker.IsAlive)
-                _videoPacketDecoderWorker.EnqueuePacket(packet);
+
+            pbVideo.Image = decoder.Decode(packet.Data, packet.Data.Length);
         }
 
-        private void OnVideoPacketDecoded(VideoFrame frame)
-        {
-            _frame = frame;
-        }
-
+        
         private void btnStart_Click(object sender, EventArgs e)
         {
             _droneClient.Start();
@@ -115,20 +100,6 @@ namespace AR.Drone.WinApp
         private void btnStop_Click(object sender, EventArgs e)
         {
             _droneClient.Stop();
-        }
-
-        private void tmrVideoUpdate_Tick(object sender, EventArgs e)
-        {
-            if (_frame == null || _frameNumber == _frame.Number)
-                return;
-            _frameNumber = _frame.Number;
-
-            if (_frameBitmap == null)
-                _frameBitmap = VideoHelper.CreateBitmap(ref _frame);
-            else
-                VideoHelper.UpdateBitmap(ref _frameBitmap, ref _frame);
-
-            pbVideo.Image = _frameBitmap;
         }
 
         private void tmrStateUpdate_Tick(object sender, EventArgs e)

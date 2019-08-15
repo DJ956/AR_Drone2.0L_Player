@@ -245,8 +245,6 @@
             // 
             // tmrVideoUpdate
             // 
-            this.tmrVideoUpdate.Interval = 20;
-            this.tmrVideoUpdate.Tick += new System.EventHandler(this.tmrVideoUpdate_Tick);
             // 
             // btnReset
             // 

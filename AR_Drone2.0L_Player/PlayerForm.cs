@@ -4,29 +4,19 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using AR.Drone.Data;
-using AR.Drone.Video;
 
 namespace AR.Drone.WinApp
 {
     public partial class PlayerForm : Form
     {
-        private readonly VideoPacketDecoderWorker _videoPacketDecoderWorker;
         private string _fileName;
         private FilePlayer _filePlayer;
-        private VideoFrame _frame;
         private Bitmap _frameBitmap;
         private decimal _frameNumber;
 
         public PlayerForm()
         {
             InitializeComponent();
-
-            _videoPacketDecoderWorker = new VideoPacketDecoderWorker(PixelFormat.BGR24, true, OnVideoPacketDecoded);
-            _videoPacketDecoderWorker.Start();
-
-            tmrVideoUpdate.Enabled = true;
-
-            _videoPacketDecoderWorker.UnhandledException += UnhandledException;
         }
 
         public string FileName
@@ -59,7 +49,6 @@ namespace AR.Drone.WinApp
 
         private void OnVideoPacketAcquired(VideoPacket packet)
         {
-            _videoPacketDecoderWorker.EnqueuePacket(packet);
             Thread.Sleep(20);
         }
 
@@ -79,24 +68,6 @@ namespace AR.Drone.WinApp
             StartPlaying();
         }
 
-        private void OnVideoPacketDecoded(VideoFrame frame)
-        {
-            _frame = frame;
-        }
-
-        private void tmrVideoUpdate_Tick(object sender, EventArgs e)
-        {
-            if (_frame == null || _frameNumber == _frame.Number)
-                return;
-            _frameNumber = _frame.Number;
-
-            if (_frameBitmap == null)
-                _frameBitmap = VideoHelper.CreateBitmap(ref _frame);
-            else
-                VideoHelper.UpdateBitmap(ref _frameBitmap, ref _frame);
-
-            pbVideo.Image = _frameBitmap;
-        }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
@@ -112,9 +83,6 @@ namespace AR.Drone.WinApp
         protected override void OnClosed(EventArgs e)
         {
             StopPlaying();
-
-            _videoPacketDecoderWorker.Dispose();
-
             base.OnClosed(e);
         }
     }
