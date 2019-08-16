@@ -47,3 +47,7 @@ C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Debug\A
 C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Debug\AR_Drone2.0L_Player.csproj.CopyComplete
 C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Debug\AR_Drone2.0L_Player.exe
 C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Debug\AR_Drone2.0L_Player.pdb
+C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Debug\Microsoft.DirectX.DirectInput.dll
+C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Debug\Microsoft.DirectX.dll
+C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Debug\Microsoft.DirectX.xml
+C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Debug\Microsoft.DirectX.DirectInput.xml

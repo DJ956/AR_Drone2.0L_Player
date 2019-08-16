@@ -52,6 +52,14 @@
     <Reference Include="AR.Drone.Media">
       <HintPath>..\..\..\..\Documents\GitHub\AR_Drone2.0L\AR.Drone.Media\bin\Debug\netstandard2.0\AR.Drone.Media.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.DirectInput, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.DirectInput.dll</HintPath>
+    </Reference>
     <Reference Include="OpenH264Lib, Version=1.0.7165.35022, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Downloads\OpenH264Lib.NET-master\OpenH264Lib.NET-master\Debug\OpenH264Lib.dll</HintPath>
