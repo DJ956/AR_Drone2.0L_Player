@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AR.Drone.Client;
@@ -17,6 +16,7 @@ using AR.Drone.Media;
 using AR.Drone.Avionics;
 using AR.Drone.Avionics.Objectives;
 using AR.Drone.Avionics.Objectives.IntentObtainers;
+using AR_Drone2._0L_Player;
 
 namespace AR.Drone.WinApp
 {
@@ -36,6 +36,9 @@ namespace AR.Drone.WinApp
         private FileStream _recorderStream;
         private Autopilot _autopilot;
 
+        private GameController gameController;
+        private Timer controllerTimer;
+
         public MainForm()
         {
             InitializeComponent();
@@ -50,6 +53,11 @@ namespace AR.Drone.WinApp
             tmrStateUpdate.Enabled = true;
             tmrVideoUpdate.Enabled = true;
 
+            controllerTimer = new Timer();
+            controllerTimer.Interval = 100;
+            controllerTimer.Tick += ControllerTimerTick;
+
+            
             _playerForms = new List<PlayerForm>();
         }
 
@@ -71,8 +79,14 @@ namespace AR.Drone.WinApp
 
             _droneClient.Dispose();
             decoder.Dispose();
+            if(gameController != null) { gameController.Dispose(); }
 
             base.OnClosed(e);
+        }
+
+        private void ControllerTimerTick(object sender, EventArgs e)
+        {
+            gameController.UpdateGamePad();
         }
 
         private void OnNavigationPacketAcquired(NavigationPacket packet)
@@ -94,7 +108,9 @@ namespace AR.Drone.WinApp
         
         private void btnStart_Click(object sender, EventArgs e)
         {
-            _droneClient.Start();
+            //_droneClient.Start();
+            if(gameController == null) { gameController = new GameController(); }
+            controllerTimer.Enabled = !controllerTimer.Enabled;
         }
 
         private void btnStop_Click(object sender, EventArgs e)
@@ -175,11 +191,21 @@ namespace AR.Drone.WinApp
             _droneClient.FlatTrim();
         }
 
+        /// <summary>
+        /// 離陸
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             _droneClient.Takeoff();
         }
 
+        /// <summary>
+        /// 着陸
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button3_Click(object sender, EventArgs e)
         {
             _droneClient.Land();
@@ -202,46 +228,91 @@ namespace AR.Drone.WinApp
             _droneClient.Send(configuration);
         }
 
+        /// <summary>
+        /// ホバリング
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnHover_Click(object sender, EventArgs e)
         {
             _droneClient.Hover();
         }
 
+        /// <summary>
+        /// 上昇
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnUp_Click(object sender, EventArgs e)
         {
             _droneClient.Progress(FlightMode.Progressive, gaz: 0.25f);
         }
 
+        /// <summary>
+        /// 降下
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDown_Click(object sender, EventArgs e)
         {
             _droneClient.Progress(FlightMode.Progressive, gaz: -0.25f);
         }
 
+        /// <summary>
+        /// 左を向く
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnTurnLeft_Click(object sender, EventArgs e)
         {
             _droneClient.Progress(FlightMode.Progressive, yaw: 0.25f);
         }
 
+        /// <summary>
+        /// 右を向く
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnTurnRight_Click(object sender, EventArgs e)
         {
             _droneClient.Progress(FlightMode.Progressive, yaw: -0.25f);
         }
 
+        /// <summary>
+        /// 左に傾ける
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnLeft_Click(object sender, EventArgs e)
         {
             _droneClient.Progress(FlightMode.Progressive, roll: -0.05f);
         }
 
+        /// <summary>
+        /// 右に傾ける
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRight_Click(object sender, EventArgs e)
         {
             _droneClient.Progress(FlightMode.Progressive, roll: 0.05f);
         }
 
+        /// <summary>
+        /// 前進
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnForward_Click(object sender, EventArgs e)
         {
             _droneClient.Progress(FlightMode.Progressive, pitch: -0.05f);
         }
 
+        /// <summary>
+        /// 後退
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnBack_Click(object sender, EventArgs e)
         {
             _droneClient.Progress(FlightMode.Progressive, pitch: 0.05f);
