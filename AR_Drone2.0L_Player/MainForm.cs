@@ -16,7 +16,7 @@ using AR.Drone.Media;
 using AR.Drone.Avionics;
 using AR.Drone.Avionics.Objectives;
 using AR.Drone.Avionics.Objectives.IntentObtainers;
-using AR_Drone2._0L_Player;
+using AR_Drone2._0L_Player.ControllerCommand;
 
 namespace AR.Drone.WinApp
 {
@@ -37,6 +37,7 @@ namespace AR.Drone.WinApp
         private Autopilot _autopilot;
 
         private GameController gameController;
+        private ControllerValues values;
         private Timer controllerTimer;
 
         public MainForm()
@@ -51,14 +52,22 @@ namespace AR.Drone.WinApp
             decoder = new OpenH264Lib.Decoder("openh264-1.7.0-win32.dll");
 
             tmrStateUpdate.Enabled = true;
-            tmrVideoUpdate.Enabled = true;
 
             controllerTimer = new Timer();
             controllerTimer.Interval = 100;
             controllerTimer.Tick += ControllerTimerTick;
 
-            
+
+            gameController = new GameController(OnTakeOff, OnLand,
+                    OnHover, OnUp, OnDown, OnLeft, OnRight, OnForward, OnBack, OnTurnLeft, OnTurnRight,
+                    OnFlatTrim);
+            values = new ControllerValues(-2, -1, -1, -1, -1);
             _playerForms = new List<PlayerForm>();
+        }
+
+        private float Map(float x, float in_min, float in_max, float out_min, float out_max)
+        {
+            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -86,7 +95,17 @@ namespace AR.Drone.WinApp
 
         private void ControllerTimerTick(object sender, EventArgs e)
         {
-            gameController.UpdateGamePad();
+            if (gameController.TryUpdateGamePad(ref values))
+            {
+                foreach(var cmd in gameController.Commands)
+                {
+                    if (cmd.IsMatch(values))
+                    {
+                        cmd.Execute(values);
+                    }
+                }
+            }
+            values.Clear();
         }
 
         private void OnNavigationPacketAcquired(NavigationPacket packet)
@@ -105,17 +124,95 @@ namespace AR.Drone.WinApp
             pbVideo.Image = decoder.Decode(packet.Data, packet.Data.Length);
         }
 
-        
+     
+        private void OnTakeOff(ControllerValues values)
+        {
+            _droneClient.Takeoff();
+            Console.WriteLine("TakeOff");
+        }
+
+        private void OnLand(ControllerValues values)
+        {
+            _droneClient.Land();
+            Console.WriteLine("Land");
+        }
+
+        private void OnHover(ControllerValues values)
+        {
+            _droneClient.Hover();
+            Console.WriteLine("Hover");
+        }
+
+        private void OnUp(ControllerValues values)
+        {
+            _droneClient.Progress(FlightMode.Progressive, gaz: 0.25f);
+            Console.WriteLine("Up");
+        }
+
+        private void OnDown(ControllerValues values)
+        {
+            _droneClient.Progress(FlightMode.Progressive, gaz: -0.25f);
+            Console.WriteLine("Down");
+        }
+
+        private void OnLeft(ControllerValues values)
+        {
+            var roll = Map(values.X, LeftCommand.MIN, LeftCommand.MAX, 0, -0.05f);
+            _droneClient.Progress(FlightMode.Progressive, roll: roll);
+            Console.WriteLine("Left Roll Max:-0.05:" + roll);
+        }
+
+        private void OnRight(ControllerValues values)
+        {
+            var roll = Map(values.X, RightCommand.MIN, RightCommand.MAX, 0, 0.05f);
+            _droneClient.Progress(FlightMode.Progressive, roll: roll);
+            Console.WriteLine("Right Roll Max:0.05:" + roll);
+        }
+
+        private void OnForward(ControllerValues values)
+        {
+            var pitch = Map(values.Y, ForwardCommand.MIN, ForwardCommand.MAX, 0, -0.05f);
+            _droneClient.Progress(FlightMode.Progressive, pitch: pitch);
+            Console.WriteLine("Forward Pitch Max:-0.05:" + pitch);
+        }
+
+        private void OnBack(ControllerValues values)
+        {
+            var pitch = Map(values.Y, BackCommand.MIN, BackCommand.MAX, 0, 0.05f);
+            _droneClient.Progress(FlightMode.Progressive, pitch: pitch);
+            Console.WriteLine("Back Pitch Max:0.05:" + pitch);
+        }
+
+        private void OnTurnLeft(ControllerValues values)
+        {
+            var yaw = Map(values.LeftZ, TurnLeftCommand.MIN, TurnLeftCommand.MAX, 0, 0.25f);
+            _droneClient.Progress(FlightMode.Progressive, yaw: yaw);
+            Console.WriteLine("TurnLeft Yaw Max:0.25:" + yaw);
+        }
+
+        private void OnTurnRight(ControllerValues values)
+        {
+            var yaw = Map(values.LeftZ, TurnRightCommand.MIN, TurnRightCommand.MAX, 0, -0.25f);
+            _droneClient.Progress(FlightMode.Progressive, yaw: yaw);
+            Console.WriteLine("TurnRight Yaw Max:-0.25:" + yaw);
+        }
+
+        private void OnFlatTrim(ControllerValues values)
+        {
+            _droneClient.FlatTrim();
+            Console.WriteLine("Flat Trim");
+        }
+
         private void btnStart_Click(object sender, EventArgs e)
         {
-            //_droneClient.Start();
-            if(gameController == null) { gameController = new GameController(); }
-            controllerTimer.Enabled = !controllerTimer.Enabled;
+            _droneClient.Start();
+            controllerTimer.Enabled = true;
         }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
             _droneClient.Stop();
+            controllerTimer.Enabled = false;
         }
 
         private void tmrStateUpdate_Tick(object sender, EventArgs e)
@@ -191,21 +288,11 @@ namespace AR.Drone.WinApp
             _droneClient.FlatTrim();
         }
 
-        /// <summary>
-        /// 離陸
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             _droneClient.Takeoff();
         }
 
-        /// <summary>
-        /// 着陸
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void button3_Click(object sender, EventArgs e)
         {
             _droneClient.Land();
@@ -228,91 +315,46 @@ namespace AR.Drone.WinApp
             _droneClient.Send(configuration);
         }
 
-        /// <summary>
-        /// ホバリング
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnHover_Click(object sender, EventArgs e)
         {
             _droneClient.Hover();
         }
 
-        /// <summary>
-        /// 上昇
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnUp_Click(object sender, EventArgs e)
         {
             _droneClient.Progress(FlightMode.Progressive, gaz: 0.25f);
         }
 
-        /// <summary>
-        /// 降下
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnDown_Click(object sender, EventArgs e)
         {
             _droneClient.Progress(FlightMode.Progressive, gaz: -0.25f);
         }
 
-        /// <summary>
-        /// 左を向く
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnTurnLeft_Click(object sender, EventArgs e)
         {
             _droneClient.Progress(FlightMode.Progressive, yaw: 0.25f);
         }
 
-        /// <summary>
-        /// 右を向く
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnTurnRight_Click(object sender, EventArgs e)
         {
             _droneClient.Progress(FlightMode.Progressive, yaw: -0.25f);
         }
 
-        /// <summary>
-        /// 左に傾ける
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnLeft_Click(object sender, EventArgs e)
         {
             _droneClient.Progress(FlightMode.Progressive, roll: -0.05f);
         }
 
-        /// <summary>
-        /// 右に傾ける
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnRight_Click(object sender, EventArgs e)
         {
             _droneClient.Progress(FlightMode.Progressive, roll: 0.05f);
         }
 
-        /// <summary>
-        /// 前進
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnForward_Click(object sender, EventArgs e)
         {
             _droneClient.Progress(FlightMode.Progressive, pitch: -0.05f);
         }
 
-        /// <summary>
-        /// 後退
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnBack_Click(object sender, EventArgs e)
         {
             _droneClient.Progress(FlightMode.Progressive, pitch: 0.05f);
@@ -340,7 +382,7 @@ namespace AR.Drone.WinApp
                 {
                     if (_settings == null) _settings = new Settings();
                     Settings settings = _settings;
-
+                    
                     if (string.IsNullOrEmpty(settings.Custom.SessionId) ||
                         settings.Custom.SessionId == "00000000")
                     {

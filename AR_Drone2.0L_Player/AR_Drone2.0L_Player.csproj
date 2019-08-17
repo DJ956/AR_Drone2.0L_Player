@@ -78,8 +78,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControllerCommand\Command\BackCommand.cs" />
+    <Compile Include="ControllerCommand\Command\ControllerCommand.cs" />
+    <Compile Include="ControllerCommand\ControllerValues.cs" />
+    <Compile Include="ControllerCommand\Command\DownCommand.cs" />
+    <Compile Include="ControllerCommand\Command\FlatTrimCommand.cs" />
+    <Compile Include="ControllerCommand\Command\ForwardCommand.cs" />
+    <Compile Include="ControllerCommand\Command\HoverCommand.cs" />
+    <Compile Include="ControllerCommand\Command\ICommand.cs" />
+    <Compile Include="ControllerCommand\Command\LandCommand.cs" />
+    <Compile Include="ControllerCommand\Command\LeftCommand.cs" />
+    <Compile Include="ControllerCommand\Command\RightCommand.cs" />
+    <Compile Include="ControllerCommand\Command\TakeOffCommand.cs" />
+    <Compile Include="ControllerCommand\Command\TurnLeftCommand.cs" />
+    <Compile Include="ControllerCommand\Command\TurnRightCommand.cs" />
+    <Compile Include="ControllerCommand\Command\UpCommand.cs" />
     <Compile Include="FilePlayer.cs" />
-    <Compile Include="GameController.cs" />
+    <Compile Include="ControllerCommand\GameController.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,5 +138,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
