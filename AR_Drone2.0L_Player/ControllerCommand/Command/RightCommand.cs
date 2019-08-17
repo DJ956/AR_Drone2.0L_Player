@@ -8,7 +8,7 @@ namespace AR_Drone2._0L_Player.ControllerCommand
 {
     public class RightCommand : ControllerCommand
     {
-        public static readonly int MIN = 33000;
+        public static readonly int MIN = 34000;
         public static readonly int MAX = 65535;
 
         public RightCommand(Action<ControllerValues> action) : base(action)

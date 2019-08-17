@@ -69,7 +69,6 @@ C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Debu
 C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Debug\AR.Drone.Media.pdb
 C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Debug\Microsoft.DirectX.xml
 C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Debug\Microsoft.DirectX.DirectInput.xml
-C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Debug\OpenH264Lib.pdb
 C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Debug\SlimDX.pdb
 C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Debug\SlimDX.xml
 C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Debug\AR_Drone2.0L_Player.csprojAssemblyReference.cache

@@ -26,6 +26,7 @@ namespace AR_Drone2._0L_Player.ControllerCommand
             directInput = new DirectInput();
 
             directInputs.AddRange(directInput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly));
+            if (!directInputs.Any()) { throw new ControllerNofFoundException("使用可能なコントローラーが見つかりません"); }
             GamePad = new Joystick(directInput, directInputs[0].InstanceGuid);
 
             Commands = new List<ControllerCommand>();

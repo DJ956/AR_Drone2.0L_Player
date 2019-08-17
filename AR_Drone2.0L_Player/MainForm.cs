@@ -57,10 +57,16 @@ namespace AR.Drone.WinApp
             controllerTimer.Interval = 100;
             controllerTimer.Tick += ControllerTimerTick;
 
+            try
+            {
+                gameController = new GameController(OnTakeOff, OnLand,
+                        OnHover, OnUp, OnDown, OnLeft, OnRight, OnForward, OnBack, OnTurnLeft, OnTurnRight,
+                        OnFlatTrim);
+            }catch(ControllerNofFoundException ex)
+            {
+                MessageBox.Show(ex.Message, "ControllerNotFoundException", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
-            gameController = new GameController(OnTakeOff, OnLand,
-                    OnHover, OnUp, OnDown, OnLeft, OnRight, OnForward, OnBack, OnTurnLeft, OnTurnRight,
-                    OnFlatTrim);
             values = new ControllerValues(-2, -1, -1, -1, -1);
             _playerForms = new List<PlayerForm>();
         }
@@ -95,6 +101,8 @@ namespace AR.Drone.WinApp
 
         private void ControllerTimerTick(object sender, EventArgs e)
         {
+            if(gameController == null) { return; }
+
             if (gameController.TryUpdateGamePad(ref values))
             {
                 foreach(var cmd in gameController.Commands)

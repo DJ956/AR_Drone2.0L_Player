@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.btnStart = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.pbVideo = new System.Windows.Forms.PictureBox();
@@ -55,6 +56,7 @@
             this.btnStopRecording = new System.Windows.Forms.Button();
             this.btnReplay = new System.Windows.Forms.Button();
             this.btnAutopilot = new System.Windows.Forms.Button();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
             ((System.ComponentModel.ISupportInitialize)(this.pbVideo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -239,7 +241,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tvInfo.Location = new System.Drawing.Point(661, 38);
             this.tvInfo.Name = "tvInfo";
-            this.tvInfo.Size = new System.Drawing.Size(291, 443);
+            this.tvInfo.Size = new System.Drawing.Size(291, 432);
             this.tvInfo.TabIndex = 18;
             // 
             // btnReset
@@ -312,11 +314,20 @@
             this.btnAutopilot.UseVisualStyleBackColor = true;
             this.btnAutopilot.Click += new System.EventHandler(this.btnAutopilot_Click);
             // 
+            // statusStrip
+            // 
+            this.statusStrip.Location = new System.Drawing.Point(0, 473);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(964, 22);
+            this.statusStrip.TabIndex = 26;
+            this.statusStrip.Text = "statusStrip1";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(964, 492);
+            this.ClientSize = new System.Drawing.Size(964, 495);
+            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.btnAutopilot);
             this.Controls.Add(this.btnReplay);
             this.Controls.Add(this.btnStopRecording);
@@ -342,10 +353,12 @@
             this.Controls.Add(this.pbVideo);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnStart);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "AR.Drone Control";
             ((System.ComponentModel.ISupportInitialize)(this.pbVideo)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -377,6 +390,7 @@
         private System.Windows.Forms.Button btnStopRecording;
         private System.Windows.Forms.Button btnReplay;
         private System.Windows.Forms.Button btnAutopilot;
+        private System.Windows.Forms.StatusStrip statusStrip;
     }
 }
 
