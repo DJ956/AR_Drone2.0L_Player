@@ -57,7 +57,12 @@
             this.btnReplay = new System.Windows.Forms.Button();
             this.btnAutopilot = new System.Windows.Forms.Button();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.statusLabelBattery = new System.Windows.Forms.ToolStripStatusLabel();
+            this.progressBarBattery = new System.Windows.Forms.ToolStripProgressBar();
+            this.statusLabelWifiQuality = new System.Windows.Forms.ToolStripStatusLabel();
+            this.progressBarLink = new System.Windows.Forms.ToolStripProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.pbVideo)).BeginInit();
+            this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnStart
@@ -316,11 +321,38 @@
             // 
             // statusStrip
             // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusLabelBattery,
+            this.progressBarBattery,
+            this.statusLabelWifiQuality,
+            this.progressBarLink});
             this.statusStrip.Location = new System.Drawing.Point(0, 473);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(964, 22);
             this.statusStrip.TabIndex = 26;
             this.statusStrip.Text = "statusStrip1";
+            // 
+            // statusLabelBattery
+            // 
+            this.statusLabelBattery.Name = "statusLabelBattery";
+            this.statusLabelBattery.Size = new System.Drawing.Size(47, 17);
+            this.statusLabelBattery.Text = "Battery:";
+            // 
+            // progressBarBattery
+            // 
+            this.progressBarBattery.Name = "progressBarBattery";
+            this.progressBarBattery.Size = new System.Drawing.Size(100, 16);
+            // 
+            // statusLabelWifiQuality
+            // 
+            this.statusLabelWifiQuality.Name = "statusLabelWifiQuality";
+            this.statusLabelWifiQuality.Size = new System.Drawing.Size(32, 17);
+            this.statusLabelWifiQuality.Text = "Link:";
+            // 
+            // progressBarLink
+            // 
+            this.progressBarLink.Name = "progressBarLink";
+            this.progressBarLink.Size = new System.Drawing.Size(100, 16);
             // 
             // MainForm
             // 
@@ -357,6 +389,8 @@
             this.Name = "MainForm";
             this.Text = "AR.Drone Control";
             ((System.ComponentModel.ISupportInitialize)(this.pbVideo)).EndInit();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -391,6 +425,10 @@
         private System.Windows.Forms.Button btnReplay;
         private System.Windows.Forms.Button btnAutopilot;
         private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel statusLabelBattery;
+        private System.Windows.Forms.ToolStripProgressBar progressBarBattery;
+        private System.Windows.Forms.ToolStripStatusLabel statusLabelWifiQuality;
+        private System.Windows.Forms.ToolStripProgressBar progressBarLink;
     }
 }
 

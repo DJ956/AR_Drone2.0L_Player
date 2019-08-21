@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using AR.Drone.Data;
+using OpenH264Lib;
 
 namespace AR.Drone.WinApp
 {
@@ -13,10 +14,12 @@ namespace AR.Drone.WinApp
         private FilePlayer _filePlayer;
         private Bitmap _frameBitmap;
         private decimal _frameNumber;
+        private Decoder decoder;
 
-        public PlayerForm()
+        public PlayerForm(Decoder decoder)
         {
             InitializeComponent();
+            this.decoder = decoder;
         }
 
         public string FileName
@@ -49,6 +52,8 @@ namespace AR.Drone.WinApp
 
         private void OnVideoPacketAcquired(VideoPacket packet)
         {
+            var img = decoder.Decode(packet.Data, packet.Data.Length);
+            pbVideo.Image = img;
             Thread.Sleep(20);
         }
 

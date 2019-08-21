@@ -43,7 +43,7 @@ namespace AR.Drone.WinApp
         public MainForm()
         {
             InitializeComponent();
-
+            
             _droneClient = new DroneClient("192.168.1.1");
             _droneClient.NavigationPacketAcquired += OnNavigationPacketAcquired;
             _droneClient.VideoPacketAcquired += OnVideoPacketAcquired;
@@ -76,10 +76,21 @@ namespace AR.Drone.WinApp
             return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
         }
 
+
+        private void CheckBatteryStatus()
+        {
+            var value = progressBarBattery.Value;
+            if(value < 25) { progressBarBattery.ForeColor = Color.Red; }
+            if(value > 25 && value < 50) { progressBarBattery.ForeColor = Color.Yellow; }
+            if(value > 50) { progressBarBattery.ForeColor = Color.Green; }
+        }
+
         protected override void OnLoad(EventArgs e)
         {
+            var version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
             base.OnLoad(e);
             Text += Environment.Is64BitProcess ? " [64-bit]" : " [32-bit]";
+            Text += " - " + version.FileVersion;
         }
 
         protected override void OnClosed(EventArgs e)
@@ -136,79 +147,67 @@ namespace AR.Drone.WinApp
         private void OnTakeOff(ControllerValues values)
         {
             _droneClient.Takeoff();
-            Console.WriteLine("TakeOff");
         }
 
         private void OnLand(ControllerValues values)
         {
             _droneClient.Land();
-            Console.WriteLine("Land");
         }
 
         private void OnHover(ControllerValues values)
         {
             _droneClient.Hover();
-            Console.WriteLine("Hover");
         }
 
         private void OnUp(ControllerValues values)
         {
-            _droneClient.Progress(FlightMode.Progressive, gaz: 0.25f);
-            Console.WriteLine("Up");
+            _droneClient.Progress(FlightMode.Progressive, gaz: 0.5f);
         }
 
         private void OnDown(ControllerValues values)
         {
-            _droneClient.Progress(FlightMode.Progressive, gaz: -0.25f);
-            Console.WriteLine("Down");
+            _droneClient.Progress(FlightMode.Progressive, gaz: -0.5f);
         }
 
         private void OnLeft(ControllerValues values)
         {
-            var roll = Map(values.X, LeftCommand.MIN, LeftCommand.MAX, 0, -0.05f);
+            var roll = Map(values.X, LeftCommand.MIN, LeftCommand.MAX, 0, -0.1f);
             _droneClient.Progress(FlightMode.Progressive, roll: roll);
-            Console.WriteLine("Left Roll Max:-0.05:" + roll);
         }
 
         private void OnRight(ControllerValues values)
         {
-            var roll = Map(values.X, RightCommand.MIN, RightCommand.MAX, 0, 0.05f);
+            var roll = Map(values.X, RightCommand.MIN, RightCommand.MAX, 0, 0.1f);
             _droneClient.Progress(FlightMode.Progressive, roll: roll);
-            Console.WriteLine("Right Roll Max:0.05:" + roll);
         }
 
         private void OnForward(ControllerValues values)
         {
-            var pitch = Map(values.Y, ForwardCommand.MIN, ForwardCommand.MAX, 0, -0.05f);
+            var pitch = Map(values.Y, ForwardCommand.MIN, ForwardCommand.MAX, 0, -0.25f);
             _droneClient.Progress(FlightMode.Progressive, pitch: pitch);
-            Console.WriteLine("Forward Pitch Max:-0.05:" + pitch);
         }
 
         private void OnBack(ControllerValues values)
         {
-            var pitch = Map(values.Y, BackCommand.MIN, BackCommand.MAX, 0, 0.05f);
+            var pitch = Map(values.Y, BackCommand.MIN, BackCommand.MAX, 0, 0.25f);
             _droneClient.Progress(FlightMode.Progressive, pitch: pitch);
-            Console.WriteLine("Back Pitch Max:0.05:" + pitch);
         }
 
         private void OnTurnLeft(ControllerValues values)
         {
-            var yaw = Map(values.LeftZ, TurnLeftCommand.MIN, TurnLeftCommand.MAX, 0, 0.25f);
+            var yaw = Map(values.LeftZ, TurnLeftCommand.MIN, TurnLeftCommand.MAX, 0, 0.5f);
             _droneClient.Progress(FlightMode.Progressive, yaw: yaw);
-            Console.WriteLine("TurnLeft Yaw Max:0.25:" + yaw);
         }
 
         private void OnTurnRight(ControllerValues values)
         {
-            var yaw = Map(values.LeftZ, TurnRightCommand.MIN, TurnRightCommand.MAX, 0, -0.25f);
+            var yaw = Map(values.LeftZ, TurnRightCommand.MIN, TurnRightCommand.MAX, 0, -0.5f);
             _droneClient.Progress(FlightMode.Progressive, yaw: yaw);
-            Console.WriteLine("TurnRight Yaw Max:-0.25:" + yaw);
         }
 
         private void OnFlatTrim(ControllerValues values)
         {
             _droneClient.FlatTrim();
-            Console.WriteLine("Flat Trim");
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -248,8 +247,16 @@ namespace AR.Drone.WinApp
                 var flying_state = (FLYING_STATES) (navdataBag.demo.ctrl_state & 0xffff);
                 node = vativeNode.Nodes.GetOrCreate("flying_state");
                 node.Text = string.Format("Ctrl State: {0}", flying_state);
-
+                
                 DumpBranch(vativeNode.Nodes, navdataBag);
+                //Label
+                var navData = NavdataConverter.ToNavigationData(navdataBag);
+                statusLabelBattery.Text = "Battery:" + navData.Battery.Percentage;
+                progressBarBattery.Value = (int)navData.Battery.Percentage;
+
+                statusLabelWifiQuality.Text = "Link:" + navData.Wifi.LinkQuality * 100;
+                progressBarLink.Value = (int)(navData.Wifi.LinkQuality * 100);
+                CheckBatteryStatus();
             }
             tvInfo.EndUpdate();
 
@@ -265,7 +272,6 @@ namespace AR.Drone.WinApp
             {
                 TreeNode node = nodes.GetOrCreate(fieldInfo.Name);
                 object value = fieldInfo.GetValue(o);
-
                 DumpValue(fieldInfo.FieldType, node, value);
             }
 
@@ -420,6 +426,7 @@ namespace AR.Drone.WinApp
                     settings.Video.Bitrate = 1000;
                     settings.Video.MaxBitrate = 2000;
 
+                    settings.Video.Codec = VideoCodecType.H264_360P_SLRS;
                     //settings.Leds.LedAnimation = new LedAnimation(LedAnimationType.BlinkGreenRed, 2.0f, 2);
                     //settings.Control.FlightAnimation = new FlightAnimation(FlightAnimationType.Wave);
 
@@ -457,7 +464,7 @@ namespace AR.Drone.WinApp
         private void btnStartRecording_Click(object sender, EventArgs e)
         {
             string path = string.Format("flight_{0:yyyy_MM_dd_HH_mm}" + ARDroneTrackFileExt, DateTime.Now);
-
+            
             using (var dialog = new SaveFileDialog {DefaultExt = ARDroneTrackFileExt, Filter = ARDroneTrackFilesFilter, FileName = path})
             {
                 if (dialog.ShowDialog(this) == DialogResult.OK)
@@ -484,7 +491,7 @@ namespace AR.Drone.WinApp
                 {
                     StopRecording();
 
-                    var playerForm = new PlayerForm {FileName = dialog.FileName};
+                    var playerForm = new PlayerForm(decoder) { FileName = dialog.FileName };
                     playerForm.Closed += (o, args) => _playerForms.Remove(o as PlayerForm);
                     _playerForms.Add(playerForm);
                     playerForm.Show(this);
