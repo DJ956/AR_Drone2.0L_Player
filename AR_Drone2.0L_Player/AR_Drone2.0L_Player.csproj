@@ -26,7 +26,7 @@
     <ProductName>ARDrone2.0LPlayer</ProductName>
     <PublisherName>DJ956</PublisherName>
     <SuiteName>ARDrone2.0LPlayer</SuiteName>
-    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationRevision>6</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -46,11 +46,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>AR.Drone.WinApp.Program</StartupObject>
@@ -94,9 +95,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.DirectInput.dll</HintPath>
     </Reference>
-    <Reference Include="OpenH264Lib, Version=1.0.7165.35022, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="OpenH264Lib, Version=1.0.7166.39569, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Downloads\OpenH264Lib.NET-master\OpenH264Lib.NET-master\Debug\OpenH264Lib.dll</HintPath>
+      <HintPath>..\..\..\..\Downloads\OpenH264Lib.NET-master\OpenH264Lib.NET-master\x64\Release\OpenH264Lib.dll</HintPath>
     </Reference>
     <Reference Include="SlimDX, Version=4.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=AMD64" />
     <Reference Include="System" />
@@ -114,7 +115,6 @@
   <ItemGroup>
     <Compile Include="ControllerCommand\Command\BackCommand.cs" />
     <Compile Include="ControllerCommand\Command\ControllerCommand.cs" />
-    <Compile Include="ControllerCommand\Command\RecordVideoCommand.cs" />
     <Compile Include="ControllerCommand\ControllerNofFoundException.cs" />
     <Compile Include="ControllerCommand\ControllerValues.cs" />
     <Compile Include="ControllerCommand\Command\DownCommand.cs" />
@@ -195,7 +195,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="openh264-1.7.0-win32.dll">
+    <Content Include="openh264-1.7.0-win64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ParrotDrone.ico" />

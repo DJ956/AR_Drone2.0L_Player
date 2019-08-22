@@ -385,7 +385,7 @@
             // exitMenuItem
             // 
             this.exitMenuItem.Name = "exitMenuItem";
-            this.exitMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitMenuItem.Size = new System.Drawing.Size(108, 22);
             this.exitMenuItem.Text = "Exit(&X)";
             this.exitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 
@@ -415,7 +415,7 @@
             // versionMenuItem
             // 
             this.versionMenuItem.Name = "versionMenuItem";
-            this.versionMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.versionMenuItem.Size = new System.Drawing.Size(132, 22);
             this.versionMenuItem.Text = "Version(&I)...";
             this.versionMenuItem.Click += new System.EventHandler(this.VersionMenuItem_Click);
             // 
@@ -452,6 +452,7 @@
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnStart);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "AR.Drone Control";
             ((System.ComponentModel.ISupportInitialize)(this.pbVideo)).EndInit();

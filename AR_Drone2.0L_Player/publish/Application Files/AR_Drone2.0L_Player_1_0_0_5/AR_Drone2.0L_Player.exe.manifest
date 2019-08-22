@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="AR_Drone2.0L_Player.exe" version="1.0.0.6" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="AR_Drone2.0L_Player.exe" version="1.0.0.5" publicKeyToken="aa39dd06f35e6959" language="neutral" processorArchitecture="msil" type="win32" />
   <description asmv2:iconFile="ParrotDrone.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="AR_Drone2.0L_Player" version="1.0.0.3" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="AR_Drone2.0L_Player" version="1.0.0.2" language="neutral" processorArchitecture="msil" />
     <commandLine file="AR_Drone2.0L_Player.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -104,13 +104,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AR_Drone2.0L_Player.exe" size="319968">
-      <assemblyIdentity name="AR_Drone2.0L_Player" version="1.0.0.3" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="AR_Drone2.0L_Player" version="1.0.0.2" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>MfOW1eF6uOMsirCamCDfSl+Oh+xlJnwdQ+Xd+zvPJV8=</dsig:DigestValue>
+        <dsig:DigestValue>aEhp1oJ4WI9NwHuVbJpL8bRdcPVP6fBUnOZ87EYEJHU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -189,4 +189,4 @@
       <dsig:DigestValue>+shOb7fADo5gV8fjVPoFp9IraKOkAEJboIK54RzMLQA=</dsig:DigestValue>
     </hash>
   </file>
-</asmv1:assembly>
+<publisherIdentity name="CN=DESKTOP-O7Q36I3\dexte" issuerKeyHash="54500c2ab34deee39891e5a1008ca2d56b09979a" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>UczwmM+bw1DEaPKq8Vk2XeD9lz0eP0N+8ao16eAgYTk=</DigestValue></Reference></SignedInfo><SignatureValue>nDEj3T37Vn4XQ/dAvvG5D7d42xAf0mjEHsUfF+4EUg5kfmC7rSHHQYMFUYwkXUV9KxXowOiaLhdWQVFArqiHFubiPFnyndrMA178+i6AlnyP+0lreWr7wTxlLexN3rUJF3KBSyjkR6RRqsk7DoVmDmGgx4BqDuKvK/ibddT1tC4=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>uU0pBtYYG5F2N0q+hvUdIXbAFsB76dqlAljwzO+Y47g9p5mydVg7KYvf2F8X7r2ukuVrOf1MB6EYktESJtbgRAYhTIIE1gNlu9LggoOPv+UL2DaxShOlZ+3FNR11CBxnvXBYRXaTS7I2wWPhRTGSHEEzgCXo96lfQPUBZYGXrHk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="396120e0e935aaf17e433f1e3d97fde05d3659f1aaf268c450c39bcf98f0cc51" Description="" Url=""><as:assemblyIdentity name="AR_Drone2.0L_Player.exe" version="1.0.0.5" publicKeyToken="aa39dd06f35e6959" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=DESKTOP-O7Q36I3\dexte</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>84BzbMp9leIG4w2UHysZZSxuJ5MrksS7RJbtprOb5zI=</DigestValue></Reference></SignedInfo><SignatureValue>IGsm71jOCjsJ4KCXZTfcYLkybK47XAYJX1/pwRRWUTYJWioSqCxs8L1NVmJBG4M37gut2o5LgMvU1jPf0lTaSxd9qJrttnPxyGk8pjMeUDdk/AAMYCeXJ36Fw1wJS5d0gypc6yOn8Y4ZX6LykJmsniAYfXh+nEmJWsSsQ+VXNdQ=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>uU0pBtYYG5F2N0q+hvUdIXbAFsB76dqlAljwzO+Y47g9p5mydVg7KYvf2F8X7r2ukuVrOf1MB6EYktESJtbgRAYhTIIE1gNlu9LggoOPv+UL2DaxShOlZ+3FNR11CBxnvXBYRXaTS7I2wWPhRTGSHEEzgCXo96lfQPUBZYGXrHk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB7TCCAVagAwIBAgIQdfbAwy6De6JNnghjPmqozDANBgkqhkiG9w0BAQsFADA1MTMwMQYDVQQDHioARABFAFMASwBUAE8AUAAtAE8ANwBRADMANgBJADMAXABkAGUAeAB0AGUwHhcNMTkwODE3MTMxODA0WhcNMjAwODE2MTkxODA0WjA1MTMwMQYDVQQDHioARABFAFMASwBUAE8AUAAtAE8ANwBRADMANgBJADMAXABkAGUAeAB0AGUwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBALlNKQbWGBuRdjdKvob1HSF2wBbAe+napQJY8MzvmOO4PaeZsnVYOymL39hfF+69rpLlazn9TAehGJLREibW4EQGIUyCBNYDZbvS4IKDj7/lC9g2sUoTpWftxTUddQgcZ71wWEV2k0uyNsFj4UUxkhxBM4Al6PepX0D1AWWBl6x5AgMBAAEwDQYJKoZIhvcNAQELBQADgYEAOHkh8gHwX6b2DDLr9RQAorUhp1ZOdbPQpLRkrPLT4fW6MH+RpdGiFpwFosy4MfKcwpIUBeHcA2HhjFJoImmyuFU4PXU20wHEqnTBdCFavznMK+rFUpCAr9RiwSs1C/omMLVybczuUrlm1TaSqUm/N3vQFJLcQaxT/HbkNqWTyV0=</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
