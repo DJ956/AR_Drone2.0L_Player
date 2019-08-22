@@ -23,6 +23,9 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <ProductName>ARDrone2.0LPlayer</ProductName>
+    <PublisherName>DJ956</PublisherName>
+    <SuiteName>ARDrone2.0LPlayer</SuiteName>
     <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
@@ -111,6 +114,7 @@
   <ItemGroup>
     <Compile Include="ControllerCommand\Command\BackCommand.cs" />
     <Compile Include="ControllerCommand\Command\ControllerCommand.cs" />
+    <Compile Include="ControllerCommand\Command\RecordVideoCommand.cs" />
     <Compile Include="ControllerCommand\ControllerNofFoundException.cs" />
     <Compile Include="ControllerCommand\ControllerValues.cs" />
     <Compile Include="ControllerCommand\Command\DownCommand.cs" />
@@ -141,7 +145,19 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SettingForm.Designer.cs">
+      <DependentUpon>SettingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TreeViewHelper.cs" />
+    <Compile Include="VersionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VersionForm.Designer.cs">
+      <DependentUpon>VersionForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -156,7 +172,14 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SettingForm.resx">
+      <DependentUpon>SettingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VersionForm.resx">
+      <DependentUpon>VersionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="AR_Drone2.0L_Player_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -176,6 +199,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ParrotDrone.ico" />
+    <None Include="Resources\ardrone2.0.jpg" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

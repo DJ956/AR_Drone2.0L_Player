@@ -20,7 +20,7 @@ namespace AR_Drone2._0L_Player.ControllerCommand
             Action<ControllerValues> onLeft, Action<ControllerValues> onRight,
             Action<ControllerValues> onForward, Action<ControllerValues> onBack,
             Action<ControllerValues> onTurnLeft, Action<ControllerValues> onTurnRight,
-            Action<ControllerValues> onFlatTrim)
+            Action<ControllerValues> onFlatTrim, Action<ControllerValues> onRecord)
         {
             directInputs = new List<DeviceInstance>();
             directInput = new DirectInput();
@@ -42,6 +42,7 @@ namespace AR_Drone2._0L_Player.ControllerCommand
             Commands.Add(new TurnLeftCommand(onTurnLeft));
             Commands.Add(new TurnRightCommand(onTurnRight));
             Commands.Add(new FlatTrimCommand(onFlatTrim));
+            Commands.Add(new RecordVideoCommand(onRecord));
         }
 
 

@@ -68,3 +68,5 @@ C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Release
 C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Release\AR_Drone2.0L_Player.csproj.CopyComplete
 C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Release\AR_Drone2.0L_Player.exe
 C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Release\AR_Drone2.0L_Player.pdb
+C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Release\AR_Drone2._0L_Player.SettingForm.resources
+C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Release\AR_Drone2._0L_Player.VersionForm.resources

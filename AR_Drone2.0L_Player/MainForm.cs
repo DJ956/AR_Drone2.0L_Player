@@ -17,6 +17,7 @@ using AR.Drone.Avionics;
 using AR.Drone.Avionics.Objectives;
 using AR.Drone.Avionics.Objectives.IntentObtainers;
 using AR_Drone2._0L_Player.ControllerCommand;
+using AR_Drone2._0L_Player;
 
 namespace AR.Drone.WinApp
 {
@@ -40,10 +41,12 @@ namespace AR.Drone.WinApp
         private ControllerValues values;
         private Timer controllerTimer;
 
+        private bool enableRecord = false;
+
         public MainForm()
         {
             InitializeComponent();
-            
+
             _droneClient = new DroneClient("192.168.1.1");
             _droneClient.NavigationPacketAcquired += OnNavigationPacketAcquired;
             _droneClient.VideoPacketAcquired += OnVideoPacketAcquired;
@@ -57,26 +60,37 @@ namespace AR.Drone.WinApp
             controllerTimer.Interval = 100;
             controllerTimer.Tick += ControllerTimerTick;
 
+            values = new ControllerValues(-2, -1, -1, -1, -1);
+            _playerForms = new List<PlayerForm>();
+
             try
             {
                 gameController = new GameController(OnTakeOff, OnLand,
                         OnHover, OnUp, OnDown, OnLeft, OnRight, OnForward, OnBack, OnTurnLeft, OnTurnRight,
-                        OnFlatTrim);
-            }catch(ControllerNofFoundException ex)
-            {
+                        OnFlatTrim, OnRecordVideo);
+            }
+            catch (ControllerNofFoundException ex){
                 MessageBox.Show(ex.Message, "ControllerNotFoundException", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            values = new ControllerValues(-2, -1, -1, -1, -1);
-            _playerForms = new List<PlayerForm>();
         }
 
+        /// <summary>
+        /// コントローラーから取得したアナログ値をドローン用の値に再設定する
+        /// </summary>
+        /// <param name="x">コントローラーのアナログ値</param>
+        /// <param name="in_min">コントローラーの最小値</param>
+        /// <param name="in_max">コントローラーの最大値</param>
+        /// <param name="out_min">ドローン最小値</param>
+        /// <param name="out_max">ドローン最大値</param>
+        /// <returns></returns>
         private float Map(float x, float in_min, float in_max, float out_min, float out_max)
         {
             return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
         }
 
-
+        /// <summary>
+        /// バッテリー残量をチェックする
+        /// </summary>
         private void CheckBatteryStatus()
         {
             var value = progressBarBattery.Value;
@@ -110,6 +124,11 @@ namespace AR.Drone.WinApp
             base.OnClosed(e);
         }
 
+        /// <summary>
+        /// コントローラーの入力を取得し、入力があればコマンドを実行する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ControllerTimerTick(object sender, EventArgs e)
         {
             if(gameController == null) { return; }
@@ -118,15 +137,16 @@ namespace AR.Drone.WinApp
             {
                 foreach(var cmd in gameController.Commands)
                 {
-                    if (cmd.IsMatch(values))
-                    {
-                        cmd.Execute(values);
-                    }
+                    if (cmd.IsMatch(values)) { cmd.Execute(values); }
                 }
             }
             values.Clear();
         }
 
+        /// <summary>
+        /// ドローンからのデータを受け取る
+        /// </summary>
+        /// <param name="packet"></param>
         private void OnNavigationPacketAcquired(NavigationPacket packet)
         {
             if (_packetRecorderWorker != null && _packetRecorderWorker.IsAlive)
@@ -135,6 +155,10 @@ namespace AR.Drone.WinApp
             _navigationPacket = packet;
         }
 
+        /// <summary>
+        /// ドローンからの映像データを受け取る
+        /// </summary>
+        /// <param name="packet"></param>
         private void OnVideoPacketAcquired(VideoPacket packet)
         {
             if (_packetRecorderWorker != null && _packetRecorderWorker.IsAlive)
@@ -143,85 +167,150 @@ namespace AR.Drone.WinApp
             pbVideo.Image = decoder.Decode(packet.Data, packet.Data.Length);
         }
 
-     
-        private void OnTakeOff(ControllerValues values)
-        {
-            _droneClient.Takeoff();
-        }
 
-        private void OnLand(ControllerValues values)
-        {
-            _droneClient.Land();
-        }
+        /// <summary>
+        /// 離陸コマンド
+        /// </summary>
+        /// <param name="values"></param>
+        private void OnTakeOff(ControllerValues values) { _droneClient.Takeoff(); }
 
-        private void OnHover(ControllerValues values)
-        {
-            _droneClient.Hover();
-        }
+        /// <summary>
+        /// 着陸コマンド
+        /// </summary>
+        /// <param name="values"></param>
+        private void OnLand(ControllerValues values) { _droneClient.Land(); }
 
-        private void OnUp(ControllerValues values)
-        {
-            _droneClient.Progress(FlightMode.Progressive, gaz: 0.5f);
-        }
+        /// <summary>
+        /// ホバリングコマンド
+        /// </summary>
+        /// <param name="values"></param>
+        private void OnHover(ControllerValues values) { _droneClient.Hover(); }
 
-        private void OnDown(ControllerValues values)
-        {
-            _droneClient.Progress(FlightMode.Progressive, gaz: -0.5f);
-        }
+        /// <summary>
+        /// 上昇コマンド
+        /// </summary>
+        /// <param name="values"></param>
+        private void OnUp(ControllerValues values) { _droneClient.Progress(FlightMode.Progressive, gaz: 0.5f); }
 
+        /// <summary>
+        /// 降下コマンド
+        /// </summary>
+        /// <param name="values"></param>
+        private void OnDown(ControllerValues values) { _droneClient.Progress(FlightMode.Progressive, gaz: -0.5f); }
+
+        /// <summary>
+        /// 左に移動 反応しない
+        /// </summary>
+        /// <param name="values"></param>
         private void OnLeft(ControllerValues values)
         {
             var roll = Map(values.X, LeftCommand.MIN, LeftCommand.MAX, 0, -0.1f);
             _droneClient.Progress(FlightMode.Progressive, roll: roll);
         }
 
+        /// <summary>
+        /// 右に移動 反応しない
+        /// </summary>
+        /// <param name="values"></param>
         private void OnRight(ControllerValues values)
         {
             var roll = Map(values.X, RightCommand.MIN, RightCommand.MAX, 0, 0.1f);
             _droneClient.Progress(FlightMode.Progressive, roll: roll);
         }
 
+        /// <summary>
+        /// 前進コマンド
+        /// </summary>
+        /// <param name="values"></param>
         private void OnForward(ControllerValues values)
         {
             var pitch = Map(values.Y, ForwardCommand.MIN, ForwardCommand.MAX, 0, -0.25f);
             _droneClient.Progress(FlightMode.Progressive, pitch: pitch);
         }
 
+        /// <summary>
+        /// 後退コマンド
+        /// </summary>
+        /// <param name="values"></param>
         private void OnBack(ControllerValues values)
         {
             var pitch = Map(values.Y, BackCommand.MIN, BackCommand.MAX, 0, 0.25f);
             _droneClient.Progress(FlightMode.Progressive, pitch: pitch);
         }
 
+        /// <summary>
+        /// 左旋回コマンド
+        /// </summary>
+        /// <param name="values"></param>
         private void OnTurnLeft(ControllerValues values)
         {
             var yaw = Map(values.LeftZ, TurnLeftCommand.MIN, TurnLeftCommand.MAX, 0, 0.5f);
             _droneClient.Progress(FlightMode.Progressive, yaw: yaw);
         }
 
+        /// <summary>
+        /// 右旋回コマンド
+        /// </summary>
+        /// <param name="values"></param>
         private void OnTurnRight(ControllerValues values)
         {
             var yaw = Map(values.LeftZ, TurnRightCommand.MIN, TurnRightCommand.MAX, 0, -0.5f);
             _droneClient.Progress(FlightMode.Progressive, yaw: yaw);
         }
 
-        private void OnFlatTrim(ControllerValues values)
+        /// <summary>
+        /// 姿勢を平行にするコマンド
+        /// </summary>
+        /// <param name="values"></param>
+        private void OnFlatTrim(ControllerValues values) { _droneClient.FlatTrim(); }
+
+        /// <summary>
+        /// 録画コマンド
+        /// </summary>
+        /// <param name="values"></param>
+        private void OnRecordVideo(ControllerValues values)
         {
-            _droneClient.FlatTrim();
+            if (enableRecord == true) { btnStartRecording.PerformClick(); }
+            else { btnStopRecording.PerformClick(); }
+
+            enableRecord = !enableRecord;
         }
 
+        /// <summary>
+        /// ドローン接続コマンド
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStart_Click(object sender, EventArgs e)
         {
             _droneClient.Start();
             controllerTimer.Enabled = true;
+            btnStart.BackColor = Color.LimeGreen;
+            btnStart.Enabled = false;
+            btnStop.Enabled = true;
+            btnStop.BackColor = SystemColors.Control;
         }
 
+        /// <summary>
+        /// ドローン接続終了コマンド
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStop_Click(object sender, EventArgs e)
         {
             _droneClient.Stop();
             controllerTimer.Enabled = false;
+            btnStop.BackColor = Color.Red;
+            btnStop.Enabled = false;
+            btnStart.Enabled = true;
+            btnStart.BackColor = SystemColors.Control;
         }
 
+        /// <summary>
+        /// ドローンデータをツリービューに表示させる
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tmrStateUpdate_Tick(object sender, EventArgs e)
         {
             tvInfo.BeginUpdate();
@@ -297,30 +386,15 @@ namespace AR.Drone.WinApp
             }
         }
 
-        private void btnFlatTrim_Click(object sender, EventArgs e)
-        {
-            _droneClient.FlatTrim();
-        }
+        private void btnFlatTrim_Click(object sender, EventArgs e) { _droneClient.FlatTrim(); }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            _droneClient.Takeoff();
-        }
+        private void button2_Click(object sender, EventArgs e) { _droneClient.Takeoff(); }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            _droneClient.Land();
-        }
+        private void button3_Click(object sender, EventArgs e) { _droneClient.Land(); }
 
-        private void btnEmergency_Click(object sender, EventArgs e)
-        {
-            _droneClient.Emergency();
-        }
+        private void btnEmergency_Click(object sender, EventArgs e) { _droneClient.Emergency(); }
 
-        private void btnReset_Click(object sender, EventArgs e)
-        {
-            _droneClient.ResetEmergency();
-        }
+        private void btnReset_Click(object sender, EventArgs e) { _droneClient.ResetEmergency(); }
 
         private void btnSwitchCam_Click(object sender, EventArgs e)
         {
@@ -329,51 +403,29 @@ namespace AR.Drone.WinApp
             _droneClient.Send(configuration);
         }
 
-        private void btnHover_Click(object sender, EventArgs e)
-        {
-            _droneClient.Hover();
-        }
+        private void btnHover_Click(object sender, EventArgs e) { _droneClient.Hover(); }
 
-        private void btnUp_Click(object sender, EventArgs e)
-        {
-            _droneClient.Progress(FlightMode.Progressive, gaz: 0.25f);
-        }
+        private void btnUp_Click(object sender, EventArgs e) { _droneClient.Progress(FlightMode.Progressive, gaz: 0.25f); }
 
-        private void btnDown_Click(object sender, EventArgs e)
-        {
-            _droneClient.Progress(FlightMode.Progressive, gaz: -0.25f);
-        }
+        private void btnDown_Click(object sender, EventArgs e) { _droneClient.Progress(FlightMode.Progressive, gaz: -0.25f); }
 
-        private void btnTurnLeft_Click(object sender, EventArgs e)
-        {
-            _droneClient.Progress(FlightMode.Progressive, yaw: 0.25f);
-        }
+        private void btnTurnLeft_Click(object sender, EventArgs e) { _droneClient.Progress(FlightMode.Progressive, yaw: 0.25f); }
 
-        private void btnTurnRight_Click(object sender, EventArgs e)
-        {
-            _droneClient.Progress(FlightMode.Progressive, yaw: -0.25f);
-        }
+        private void btnTurnRight_Click(object sender, EventArgs e) { _droneClient.Progress(FlightMode.Progressive, yaw: -0.25f); }
 
-        private void btnLeft_Click(object sender, EventArgs e)
-        {
-            _droneClient.Progress(FlightMode.Progressive, roll: -0.05f);
-        }
+        private void btnLeft_Click(object sender, EventArgs e) { _droneClient.Progress(FlightMode.Progressive, roll: -0.05f); }
 
-        private void btnRight_Click(object sender, EventArgs e)
-        {
-            _droneClient.Progress(FlightMode.Progressive, roll: 0.05f);
-        }
+        private void btnRight_Click(object sender, EventArgs e) { _droneClient.Progress(FlightMode.Progressive, roll: 0.05f); }
 
-        private void btnForward_Click(object sender, EventArgs e)
-        {
-            _droneClient.Progress(FlightMode.Progressive, pitch: -0.05f);
-        }
+        private void btnForward_Click(object sender, EventArgs e) { _droneClient.Progress(FlightMode.Progressive, pitch: -0.05f); }
 
-        private void btnBack_Click(object sender, EventArgs e)
-        {
-            _droneClient.Progress(FlightMode.Progressive, pitch: 0.05f);
-        }
+        private void btnBack_Click(object sender, EventArgs e) { _droneClient.Progress(FlightMode.Progressive, pitch: 0.05f); }
 
+        /// <summary>
+        /// ドローン設定を読み込む
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnReadConfig_Click(object sender, EventArgs e)
         {
             Task<Settings> configurationTask = _droneClient.GetConfigurationTask();
@@ -390,6 +442,11 @@ namespace AR.Drone.WinApp
             configurationTask.Start();
         }
 
+        /// <summary>
+        /// ドローン設定を再送信する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSendConfig_Click(object sender, EventArgs e)
         {
             var sendConfigTask = new Task(() =>
@@ -446,6 +503,9 @@ namespace AR.Drone.WinApp
             sendConfigTask.Start();
         }
 
+        /// <summary>
+        /// 映像録画を停止させる
+        /// </summary>
         private void StopRecording()
         {
             if (_packetRecorderWorker != null)
@@ -461,6 +521,11 @@ namespace AR.Drone.WinApp
             }
         }
 
+        /// <summary>
+        /// 映像データ録画開始
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStartRecording_Click(object sender, EventArgs e)
         {
             string path = string.Format("flight_{0:yyyy_MM_dd_HH_mm}" + ARDroneTrackFileExt, DateTime.Now);
@@ -474,15 +539,33 @@ namespace AR.Drone.WinApp
                     _recorderStream = new FileStream(dialog.FileName, FileMode.OpenOrCreate);
                     _packetRecorderWorker = new PacketRecorder(_recorderStream);
                     _packetRecorderWorker.Start();
+
+                    btnStartRecording.BackColor = Color.Red;
+                    btnStartRecording.Enabled = false;
+                    btnStopRecording.Enabled = true;
+                    btnStopRecording.BackColor = SystemColors.Control;
                 }
             }
         }
-
+        /// <summary>
+        /// 録画停止
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStopRecording_Click(object sender, EventArgs e)
         {
             StopRecording();
+            btnStopRecording.BackColor = Color.Red;
+            btnStopRecording.Enabled = false;
+            btnStartRecording.Enabled = true;
+            btnStartRecording.BackColor = SystemColors.Control;
         }
 
+        /// <summary>
+        /// 録画データのリプレイ開始
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnReplay_Click(object sender, EventArgs e)
         {
             using (var dialog = new OpenFileDialog {DefaultExt = ARDroneTrackFileExt, Filter = ARDroneTrackFilesFilter})
@@ -562,6 +645,20 @@ namespace AR.Drone.WinApp
                 _autopilot.Active = true;
                 btnAutopilot.ForeColor = Color.Red;
             }
+        }
+
+        private void DroneMenuItem_Click(object sender, EventArgs e)
+        {
+            var settingForm = new SettingForm();
+            settingForm.ShowDialog();
+        }
+
+        private void ExitMenuItem_Click(object sender, EventArgs e) { Application.Exit(); }
+
+        private void VersionMenuItem_Click(object sender, EventArgs e)
+        {
+            var versionForm = new VersionForm();
+            versionForm.ShowDialog();
         }
     }
 }

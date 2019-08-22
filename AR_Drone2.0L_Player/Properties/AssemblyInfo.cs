@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // 制御されます。アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更します。
 [assembly: AssemblyTitle("AR_Drone2.0L_Player")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Play the  Parrot-AR-Drone2.0 with PS4 Game Controller")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("DJ956")]
 [assembly: AssemblyProduct("AR_Drone2.0L_Player")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyCopyright("DJ956")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

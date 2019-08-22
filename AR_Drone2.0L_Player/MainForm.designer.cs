@@ -61,13 +61,21 @@
             this.progressBarBattery = new System.Windows.Forms.ToolStripProgressBar();
             this.statusLabelWifiQuality = new System.Windows.Forms.ToolStripStatusLabel();
             this.progressBarLink = new System.Windows.Forms.ToolStripProgressBar();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.droneMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpHToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.versionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pbVideo)).BeginInit();
             this.statusStrip.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(12, 11);
+            this.btnStart.Location = new System.Drawing.Point(15, 38);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 21);
             this.btnStart.TabIndex = 0;
@@ -77,7 +85,7 @@
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(93, 11);
+            this.btnStop.Location = new System.Drawing.Point(96, 38);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(75, 21);
             this.btnStop.TabIndex = 1;
@@ -88,15 +96,15 @@
             // pbVideo
             // 
             this.pbVideo.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pbVideo.Location = new System.Drawing.Point(12, 38);
+            this.pbVideo.Location = new System.Drawing.Point(15, 65);
             this.pbVideo.Name = "pbVideo";
-            this.pbVideo.Size = new System.Drawing.Size(640, 332);
+            this.pbVideo.Size = new System.Drawing.Size(640, 346);
             this.pbVideo.TabIndex = 2;
             this.pbVideo.TabStop = false;
             // 
             // btnFlatTrim
             // 
-            this.btnFlatTrim.Location = new System.Drawing.Point(12, 376);
+            this.btnFlatTrim.Location = new System.Drawing.Point(12, 431);
             this.btnFlatTrim.Name = "btnFlatTrim";
             this.btnFlatTrim.Size = new System.Drawing.Size(75, 21);
             this.btnFlatTrim.TabIndex = 3;
@@ -106,7 +114,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(174, 376);
+            this.button2.Location = new System.Drawing.Point(174, 431);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 21);
             this.button2.TabIndex = 4;
@@ -116,7 +124,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(256, 376);
+            this.button3.Location = new System.Drawing.Point(256, 431);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 21);
             this.button3.TabIndex = 5;
@@ -126,7 +134,7 @@
             // 
             // btnEmergency
             // 
-            this.btnEmergency.Location = new System.Drawing.Point(569, 11);
+            this.btnEmergency.Location = new System.Drawing.Point(572, 38);
             this.btnEmergency.Name = "btnEmergency";
             this.btnEmergency.Size = new System.Drawing.Size(83, 21);
             this.btnEmergency.TabIndex = 6;
@@ -141,7 +149,7 @@
             // 
             // btnSwitchCam
             // 
-            this.btnSwitchCam.Location = new System.Drawing.Point(563, 376);
+            this.btnSwitchCam.Location = new System.Drawing.Point(563, 431);
             this.btnSwitchCam.Name = "btnSwitchCam";
             this.btnSwitchCam.Size = new System.Drawing.Size(89, 21);
             this.btnSwitchCam.TabIndex = 8;
@@ -151,7 +159,7 @@
             // 
             // btnUp
             // 
-            this.btnUp.Location = new System.Drawing.Point(174, 407);
+            this.btnUp.Location = new System.Drawing.Point(174, 462);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(75, 21);
             this.btnUp.TabIndex = 9;
@@ -161,7 +169,7 @@
             // 
             // btnDown
             // 
-            this.btnDown.Location = new System.Drawing.Point(174, 435);
+            this.btnDown.Location = new System.Drawing.Point(174, 490);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(75, 21);
             this.btnDown.TabIndex = 10;
@@ -171,7 +179,7 @@
             // 
             // btnLeft
             // 
-            this.btnLeft.Location = new System.Drawing.Point(256, 435);
+            this.btnLeft.Location = new System.Drawing.Point(256, 490);
             this.btnLeft.Name = "btnLeft";
             this.btnLeft.Size = new System.Drawing.Size(75, 21);
             this.btnLeft.TabIndex = 11;
@@ -181,7 +189,7 @@
             // 
             // btnBack
             // 
-            this.btnBack.Location = new System.Drawing.Point(338, 434);
+            this.btnBack.Location = new System.Drawing.Point(338, 489);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(75, 21);
             this.btnBack.TabIndex = 12;
@@ -191,7 +199,7 @@
             // 
             // btnRight
             // 
-            this.btnRight.Location = new System.Drawing.Point(420, 434);
+            this.btnRight.Location = new System.Drawing.Point(420, 489);
             this.btnRight.Name = "btnRight";
             this.btnRight.Size = new System.Drawing.Size(75, 21);
             this.btnRight.TabIndex = 13;
@@ -201,7 +209,7 @@
             // 
             // btnForward
             // 
-            this.btnForward.Location = new System.Drawing.Point(338, 407);
+            this.btnForward.Location = new System.Drawing.Point(338, 462);
             this.btnForward.Name = "btnForward";
             this.btnForward.Size = new System.Drawing.Size(75, 21);
             this.btnForward.TabIndex = 14;
@@ -211,7 +219,7 @@
             // 
             // btnTurnLeft
             // 
-            this.btnTurnLeft.Location = new System.Drawing.Point(257, 408);
+            this.btnTurnLeft.Location = new System.Drawing.Point(257, 463);
             this.btnTurnLeft.Name = "btnTurnLeft";
             this.btnTurnLeft.Size = new System.Drawing.Size(75, 21);
             this.btnTurnLeft.TabIndex = 15;
@@ -221,7 +229,7 @@
             // 
             // btnTurnRight
             // 
-            this.btnTurnRight.Location = new System.Drawing.Point(419, 408);
+            this.btnTurnRight.Location = new System.Drawing.Point(419, 463);
             this.btnTurnRight.Name = "btnTurnRight";
             this.btnTurnRight.Size = new System.Drawing.Size(75, 21);
             this.btnTurnRight.TabIndex = 16;
@@ -231,7 +239,7 @@
             // 
             // btnHover
             // 
-            this.btnHover.Location = new System.Drawing.Point(338, 376);
+            this.btnHover.Location = new System.Drawing.Point(338, 431);
             this.btnHover.Name = "btnHover";
             this.btnHover.Size = new System.Drawing.Size(75, 21);
             this.btnHover.TabIndex = 17;
@@ -246,12 +254,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tvInfo.Location = new System.Drawing.Point(661, 38);
             this.tvInfo.Name = "tvInfo";
-            this.tvInfo.Size = new System.Drawing.Size(291, 432);
+            this.tvInfo.Size = new System.Drawing.Size(291, 477);
             this.tvInfo.TabIndex = 18;
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(480, 11);
+            this.btnReset.Location = new System.Drawing.Point(483, 38);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(83, 21);
             this.btnReset.TabIndex = 19;
@@ -261,7 +269,7 @@
             // 
             // btnReadConfig
             // 
-            this.btnReadConfig.Location = new System.Drawing.Point(563, 408);
+            this.btnReadConfig.Location = new System.Drawing.Point(563, 463);
             this.btnReadConfig.Name = "btnReadConfig";
             this.btnReadConfig.Size = new System.Drawing.Size(89, 21);
             this.btnReadConfig.TabIndex = 20;
@@ -271,7 +279,7 @@
             // 
             // btnSendConfig
             // 
-            this.btnSendConfig.Location = new System.Drawing.Point(563, 435);
+            this.btnSendConfig.Location = new System.Drawing.Point(563, 490);
             this.btnSendConfig.Name = "btnSendConfig";
             this.btnSendConfig.Size = new System.Drawing.Size(89, 21);
             this.btnSendConfig.TabIndex = 21;
@@ -281,7 +289,7 @@
             // 
             // btnStartRecording
             // 
-            this.btnStartRecording.Location = new System.Drawing.Point(174, 11);
+            this.btnStartRecording.Location = new System.Drawing.Point(177, 38);
             this.btnStartRecording.Name = "btnStartRecording";
             this.btnStartRecording.Size = new System.Drawing.Size(75, 21);
             this.btnStartRecording.TabIndex = 22;
@@ -291,7 +299,7 @@
             // 
             // btnStopRecording
             // 
-            this.btnStopRecording.Location = new System.Drawing.Point(255, 11);
+            this.btnStopRecording.Location = new System.Drawing.Point(258, 38);
             this.btnStopRecording.Name = "btnStopRecording";
             this.btnStopRecording.Size = new System.Drawing.Size(75, 21);
             this.btnStopRecording.TabIndex = 23;
@@ -301,7 +309,7 @@
             // 
             // btnReplay
             // 
-            this.btnReplay.Location = new System.Drawing.Point(336, 11);
+            this.btnReplay.Location = new System.Drawing.Point(339, 38);
             this.btnReplay.Name = "btnReplay";
             this.btnReplay.Size = new System.Drawing.Size(75, 21);
             this.btnReplay.TabIndex = 24;
@@ -311,7 +319,7 @@
             // 
             // btnAutopilot
             // 
-            this.btnAutopilot.Location = new System.Drawing.Point(12, 435);
+            this.btnAutopilot.Location = new System.Drawing.Point(12, 490);
             this.btnAutopilot.Name = "btnAutopilot";
             this.btnAutopilot.Size = new System.Drawing.Size(75, 21);
             this.btnAutopilot.TabIndex = 25;
@@ -326,7 +334,7 @@
             this.progressBarBattery,
             this.statusLabelWifiQuality,
             this.progressBarLink});
-            this.statusStrip.Location = new System.Drawing.Point(0, 473);
+            this.statusStrip.Location = new System.Drawing.Point(0, 518);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(964, 22);
             this.statusStrip.TabIndex = 26;
@@ -354,12 +362,70 @@
             this.progressBarLink.Name = "progressBarLink";
             this.progressBarLink.Size = new System.Drawing.Size(100, 16);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileFToolStripMenuItem,
+            this.editEToolStripMenuItem,
+            this.helpHToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(964, 24);
+            this.menuStrip1.TabIndex = 27;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileFToolStripMenuItem
+            // 
+            this.fileFToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exitMenuItem});
+            this.fileFToolStripMenuItem.Name = "fileFToolStripMenuItem";
+            this.fileFToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+            this.fileFToolStripMenuItem.Text = "File(&F)";
+            // 
+            // exitMenuItem
+            // 
+            this.exitMenuItem.Name = "exitMenuItem";
+            this.exitMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitMenuItem.Text = "Exit(&X)";
+            this.exitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
+            // 
+            // editEToolStripMenuItem
+            // 
+            this.editEToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.droneMenuItem});
+            this.editEToolStripMenuItem.Name = "editEToolStripMenuItem";
+            this.editEToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.editEToolStripMenuItem.Text = "Edit(&E)";
+            // 
+            // droneMenuItem
+            // 
+            this.droneMenuItem.Name = "droneMenuItem";
+            this.droneMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.droneMenuItem.Text = "Drone(&D)...";
+            this.droneMenuItem.Click += new System.EventHandler(this.DroneMenuItem_Click);
+            // 
+            // helpHToolStripMenuItem
+            // 
+            this.helpHToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.versionMenuItem});
+            this.helpHToolStripMenuItem.Name = "helpHToolStripMenuItem";
+            this.helpHToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.helpHToolStripMenuItem.Text = "Help(&H)";
+            // 
+            // versionMenuItem
+            // 
+            this.versionMenuItem.Name = "versionMenuItem";
+            this.versionMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.versionMenuItem.Text = "Version(&I)...";
+            this.versionMenuItem.Click += new System.EventHandler(this.VersionMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(964, 495);
+            this.ClientSize = new System.Drawing.Size(964, 540);
             this.Controls.Add(this.statusStrip);
+            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.btnAutopilot);
             this.Controls.Add(this.btnReplay);
             this.Controls.Add(this.btnStopRecording);
@@ -391,6 +457,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbVideo)).EndInit();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -429,6 +497,13 @@
         private System.Windows.Forms.ToolStripProgressBar progressBarBattery;
         private System.Windows.Forms.ToolStripStatusLabel statusLabelWifiQuality;
         private System.Windows.Forms.ToolStripProgressBar progressBarLink;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileFToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editEToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem droneMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpHToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem versionMenuItem;
     }
 }
 
