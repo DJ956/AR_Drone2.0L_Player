@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 制御されます。アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更します。
 [assembly: AssemblyTitle("AR_Drone2.0L_Player")]
-[assembly: AssemblyDescription("Play the  Parrot-AR-Drone2.0 with PS4 Game Controller")]
+[assembly: AssemblyDescription("Parrot ARDrone2.0をPS4のコントローラーで操作する")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("DJ956")]
 [assembly: AssemblyProduct("AR_Drone2.0L_Player")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // すべての値を指定するか、次を使用してビルド番号とリビジョン番号を既定に設定できます
 // 既定値にすることができます:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.4")]
-[assembly: AssemblyFileVersion("1.0.0.4")]
+[assembly: AssemblyVersion("1.0.0.5")]
+[assembly: AssemblyFileVersion("1.0.0.5")]

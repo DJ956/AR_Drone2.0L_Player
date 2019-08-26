@@ -385,9 +385,9 @@ namespace AR.Drone.WinApp
 
         private void btnFlatTrim_Click(object sender, EventArgs e) { _droneClient.FlatTrim(); }
 
-        private void button2_Click(object sender, EventArgs e) { _droneClient.Takeoff(); }
+        private void buttonTakeoff_Click(object sender, EventArgs e) { _droneClient.Takeoff(); }
 
-        private void button3_Click(object sender, EventArgs e) { _droneClient.Land(); }
+        private void buttonLand_Click(object sender, EventArgs e) { _droneClient.Land(); }
 
         private void btnEmergency_Click(object sender, EventArgs e) { _droneClient.Emergency(); }
 
@@ -446,61 +446,62 @@ namespace AR.Drone.WinApp
         /// <param name="e"></param>
         private void btnSendConfig_Click(object sender, EventArgs e)
         {
-            var sendConfigTask = new Task(() =>
-                {
-                    if (_settings == null) _settings = new Settings();
-                    Settings settings = _settings;
+            if (_settings == null) _settings = new Settings();
+            Settings settings = _settings;
 
-                    if (string.IsNullOrEmpty(settings.Custom.SessionId) ||
-                        settings.Custom.SessionId == "00000000")
-                    {
-                        // set new session, application and profile
-                        _droneClient.AckControlAndWaitForConfirmation(); // wait for the control confirmation
+            if (string.IsNullOrEmpty(settings.Custom.SessionId) ||
+                settings.Custom.SessionId == "00000000")
+            {
+                // set new session, application and profile
+                _droneClient.AckControlAndWaitForConfirmation(); // wait for the control confirmation
 
-                        settings.Custom.SessionId = Settings.NewId();
-                        _droneClient.Send(settings);
+                settings.Custom.SessionId = Settings.NewId();
+                _droneClient.Send(settings);
 
-                        _droneClient.AckControlAndWaitForConfirmation();
+                _droneClient.AckControlAndWaitForConfirmation();
 
-                        settings.Custom.ProfileId = Settings.NewId();
-                        _droneClient.Send(settings);
+                settings.Custom.ProfileId = Settings.NewId();
+                _droneClient.Send(settings);
 
-                        _droneClient.AckControlAndWaitForConfirmation();
+                _droneClient.AckControlAndWaitForConfirmation();
 
-                        settings.Custom.ApplicationId = Settings.NewId();
-                        _droneClient.Send(settings);
+                settings.Custom.ApplicationId = Settings.NewId();
+                _droneClient.Send(settings);
 
-                        _droneClient.AckControlAndWaitForConfirmation();
-                    }
+                _droneClient.AckControlAndWaitForConfirmation();
+            }
 
-                    settings.General.NavdataDemo = false;
-                    settings.General.NavdataOptions = NavdataOptions.All;
+            var X = 1000;
 
-                    settings.Video.BitrateCtrlMode = VideoBitrateControlMode.Dynamic;
-                    settings.Video.Bitrate = 5000;
-                    settings.Video.MaxBitrate = 9000;
+            settings.General.NavdataDemo = false;
+            settings.General.NavdataOptions = NavdataOptions.All;
 
-                    var name = comboBoxVideoCodec.SelectedItem.ToString();
-                    var videoCodec = (VideoCodecType)Enum.Parse(typeof(VideoCodecType), name);
+            settings.Video.BitrateCtrlMode = VideoBitrateControlMode.Dynamic;
+            settings.Video.BitrateStorage = 70 * X; 
+            settings.Video.CodecFps = 30;
 
-                    settings.Video.Codec = videoCodec;
-                    //settings.Leds.LedAnimation = new LedAnimation(LedAnimationType.BlinkGreenRed, 2.0f, 2);
-                    //settings.Control.FlightAnimation = new FlightAnimation(FlightAnimationType.Wave);
+            settings.Video.Bitrate = 700 * X;
+            settings.Video.MaxBitrate = 900 * X;
 
-                    // record video to usb
-                    //settings.Video.OnUsb = true;
-                    // usage of MP4_360P_H264_720P codec is a requirement for video recording to usb
-                    //settings.Video.Codec = VideoCodecType.MP4_360P_H264_720P;
-                    // start
-                    //settings.Userbox.Command = new UserboxCommand(UserboxCommandType.Start);
-                    // stop
-                    //settings.Userbox.Command = new UserboxCommand(UserboxCommandType.Stop);
+            var name = comboBoxVideoCodec.SelectedItem.ToString();
+            var videoCodec = (VideoCodecType)Enum.Parse(typeof(VideoCodecType), name);
+
+            settings.Video.Codec = videoCodec;
+            //settings.Leds.LedAnimation = new LedAnimation(LedAnimationType.BlinkGreenRed, 2.0f, 2);
+            //settings.Control.FlightAnimation = new FlightAnimation(FlightAnimationType.Wave);
+
+            // record video to usb
+            //settings.Video.OnUsb = true;
+            // usage of MP4_360P_H264_720P codec is a requirement for video recording to usb
+            //settings.Video.Codec = VideoCodecType.MP4_360P_H264_720P;
+            // start
+            //settings.Userbox.Command = new UserboxCommand(UserboxCommandType.Start);
+            // stop
+            //settings.Userbox.Command = new UserboxCommand(UserboxCommandType.Stop);
 
 
-                    //send all changes in one pice
-                    _droneClient.Send(settings);
-                });
-            sendConfigTask.Start();
+            //send all changes in one pice
+            _droneClient.Send(settings);
         }
 
         /// <summary>
