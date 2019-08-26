@@ -26,7 +26,6 @@ C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Rele
 C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Release\AR_Drone2.0L_Player.csproj.CopyComplete
 C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Release\AR_Drone2.0L_Player.exe
 C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Release\AR_Drone2.0L_Player.pdb
-C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Release\openh264-1.7.0-win32.dll
 C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Release\AR_Drone2.0L_Player.exe.manifest
 C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Release\AR_Drone2.0L_Player.application
 C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Release\AR_Drone2.0L_Player.csprojAssemblyReference.cache
@@ -70,3 +69,7 @@ C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Release
 C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Release\AR_Drone2._0L_Player.SettingForm.resources
 C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Release\AR_Drone2._0L_Player.VersionForm.resources
 C:\Users\DJ\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Release\openh264-1.7.0-win64.dll
+C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Release\AR_Drone2._0L_Player.SettingForm.resources
+C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\obj\Release\AR_Drone2._0L_Player.VersionForm.resources
+C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Release\openh264-1.7.0-win64.dll
+C:\Users\dexte\Documents\GitHub\AR_Drone2.0L_Player\AR_Drone2.0L_Player\bin\Release\OpenH264Lib.pdb

@@ -4,6 +4,7 @@ using System.Threading;
 using AR.Drone.Data;
 using AR.Drone.Infrastructure;
 using AR.Drone.Media;
+using System.Collections.Generic;
 
 namespace AR.Drone.WinApp
 {
@@ -20,6 +21,30 @@ namespace AR.Drone.WinApp
             _videoPacketAcquired = videoPacketAcquired;
         }
 
+
+        public void LoadVideoFile(ref Queue<NavigationPacket> navigationPackets, ref Queue<VideoPacket> videoPackets)
+        {
+            using (var stream = new FileStream(_path, FileMode.Open))
+            using (var reader = new PacketReader(stream))
+            {
+                while (stream.Position < stream.Length)
+                {
+                    var packetType = reader.ReadPacketType();
+                    switch(packetType)
+                    {
+                        case PacketType.Navigation:
+                            var navPacket = reader.ReadNavigationPacket();
+                            navigationPackets.Enqueue(navPacket);
+                            break;
+                        case PacketType.Video:
+                            var videoPacket = reader.ReadVideoPacket();
+                            videoPackets.Enqueue(videoPacket);
+                            break;
+                    } 
+                }
+            }
+
+        }
 
         protected override void Loop(CancellationToken token)
         {

@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AR.Drone.Data;
 using OpenH264Lib;
+using AR_Drone2._0L_Player.Codec;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AR.Drone.WinApp
 {
@@ -14,14 +15,18 @@ namespace AR.Drone.WinApp
     {
         private string _fileName;
         private FilePlayer _filePlayer;
-        private Bitmap _frameBitmap;
-        private decimal _frameNumber;
         private Decoder decoder;
+        private AviWriter aviWriter;
+
+        private Queue<VideoPacket> videoPackets;
+        private Queue<NavigationPacket> navigationPackets;
 
         public PlayerForm(Decoder decoder)
         {
             InitializeComponent();
             this.decoder = decoder;
+            videoPackets = new Queue<VideoPacket>();
+            navigationPackets = new Queue<NavigationPacket>();
         }
 
         public string FileName
@@ -55,20 +60,8 @@ namespace AR.Drone.WinApp
         private void OnVideoPacketAcquired(VideoPacket packet)
         {
             var img = decoder.Decode(packet.Data, packet.Data.Length);
-            var root = textBoxFolderPath.Text;
-            if (root != "" && Directory.Exists(root) && img != null)
-            {
-                Parallel.Invoke(() =>
-                {
-                    var time = DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss");
-                    time += ".png";
-                    var path = Path.Combine(root, time);
-                    img.Save(path, ImageFormat.Png);
-                });
-            }
-
             pbVideo.Image = img;
-            //Thread.Sleep(20);
+            Thread.Sleep(20);
         }
 
         private void StopPlaying()
@@ -97,10 +90,41 @@ namespace AR.Drone.WinApp
             base.OnClosed(e);
         }
 
-        private void ButtonFolderDialog_Click(object sender, EventArgs e)
+        private void ButtonSaveDialog_Click(object sender, EventArgs e)
         {
-            var dialog = new FolderBrowserDialog();
-            if (dialog.ShowDialog() == DialogResult.OK) { textBoxFolderPath.Text = dialog.SelectedPath; }
+            var dialog = new SaveFileDialog();
+            dialog.Filter = "avi | *.avi";
+            dialog.FileName = Path.GetFileName(_fileName);
+            if (dialog.ShowDialog() == DialogResult.OK) { textBoxSavePath.Text = dialog.FileName; }
+        }
+
+        private void ButtonSave_Click(object sender, EventArgs e)
+        {
+            if(textBoxSavePath.Text == "") { buttonSaveDialog.PerformClick(); }
+            if (_filePlayer == null) _filePlayer = new FilePlayer(_fileName, OnNavigationPacketAcquired, OnVideoPacketAcquired);
+            _filePlayer.UnhandledException += UnhandledException;
+
+            _filePlayer.LoadVideoFile(ref navigationPackets, ref videoPackets);
+            var packet = videoPackets.Peek();
+            var width = packet.Width;
+            var height = packet.Height;
+
+            using (var stream = new FileStream(textBoxSavePath.Text, FileMode.Create))
+            {
+                aviWriter = new AviWriter(stream, "H264", width, height, 20);
+                while (videoPackets.Any())
+                {
+                    packet = videoPackets.Dequeue();
+                    aviWriter.AddImage(packet.Data, false);
+                }
+
+                aviWriter.Close();
+            }
+
+            videoPackets.Clear();
+
+            MessageBox.Show($"保存完了しました : {textBoxSavePath.Text}",
+                "Aviファイル作成完了", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

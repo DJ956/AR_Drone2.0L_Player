@@ -81,6 +81,13 @@ namespace AR.Drone.WinApp
             catch (ControllerNofFoundException ex){
                 MessageBox.Show(ex.Message, "ControllerNotFoundException", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            foreach(var codec in Enum.GetNames(typeof(VideoCodecType)))
+            {
+                if(codec == "NULL") { continue; }
+                comboBoxVideoCodec.Items.Add(codec);
+            }
+            comboBoxVideoCodec.SelectedIndex = 7;
         }
 
         /// <summary>
@@ -353,7 +360,7 @@ namespace AR.Drone.WinApp
                 DumpBranch(vativeNode.Nodes, navdataBag);
                 //Label
                 var navData = NavdataConverter.ToNavigationData(navdataBag);
-                statusLabelBattery.Text = "Battery:" + navData.Battery.Percentage;
+                statusLabelBattery.Text = "バッテリー:" + navData.Battery.Percentage;
                 progressBarBattery.Value = (int)navData.Battery.Percentage;
 
                 statusLabelWifiQuality.Text = "Link:" + navData.Wifi.LinkQuality * 100;
@@ -466,7 +473,7 @@ namespace AR.Drone.WinApp
                 {
                     if (_settings == null) _settings = new Settings();
                     Settings settings = _settings;
-                    
+
                     if (string.IsNullOrEmpty(settings.Custom.SessionId) ||
                         settings.Custom.SessionId == "00000000")
                     {
@@ -475,17 +482,17 @@ namespace AR.Drone.WinApp
 
                         settings.Custom.SessionId = Settings.NewId();
                         _droneClient.Send(settings);
-                        
+
                         _droneClient.AckControlAndWaitForConfirmation();
 
                         settings.Custom.ProfileId = Settings.NewId();
                         _droneClient.Send(settings);
-                        
+
                         _droneClient.AckControlAndWaitForConfirmation();
 
                         settings.Custom.ApplicationId = Settings.NewId();
                         _droneClient.Send(settings);
-                        
+
                         _droneClient.AckControlAndWaitForConfirmation();
                     }
 
@@ -493,10 +500,13 @@ namespace AR.Drone.WinApp
                     settings.General.NavdataOptions = NavdataOptions.All;
 
                     settings.Video.BitrateCtrlMode = VideoBitrateControlMode.Dynamic;
-                    settings.Video.Bitrate = 1000;
-                    settings.Video.MaxBitrate = 2000;
+                    settings.Video.Bitrate = 5000;
+                    settings.Video.MaxBitrate = 9000;
 
-                    settings.Video.Codec = VideoCodecType.H264_360P_SLRS;
+                    var name = comboBoxVideoCodec.SelectedItem.ToString();
+                    var videoCodec = (VideoCodecType)Enum.Parse(typeof(VideoCodecType), name);
+
+                    settings.Video.Codec = videoCodec;
                     //settings.Leds.LedAnimation = new LedAnimation(LedAnimationType.BlinkGreenRed, 2.0f, 2);
                     //settings.Control.FlightAnimation = new FlightAnimation(FlightAnimationType.Wave);
 

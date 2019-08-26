@@ -71,7 +71,7 @@
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 0;
-            this.buttonSave.Text = "Save";
+            this.buttonSave.Text = "保存";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
             // 
@@ -81,7 +81,7 @@
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 1;
-            this.buttonClose.Text = "Close";
+            this.buttonClose.Text = "閉じる";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.ButtonClose_Click);
             // 
@@ -90,9 +90,9 @@
             this.label_Up.AutoSize = true;
             this.label_Up.Location = new System.Drawing.Point(7, 29);
             this.label_Up.Name = "label_Up";
-            this.label_Up.Size = new System.Drawing.Size(21, 12);
+            this.label_Up.Size = new System.Drawing.Size(31, 12);
             this.label_Up.TabIndex = 2;
-            this.label_Up.Text = "Up:";
+            this.label_Up.Text = "上昇:";
             // 
             // trackBar_Up
             // 
@@ -121,9 +121,9 @@
             this.label_Down.AutoSize = true;
             this.label_Down.Location = new System.Drawing.Point(186, 29);
             this.label_Down.Name = "label_Down";
-            this.label_Down.Size = new System.Drawing.Size(35, 12);
+            this.label_Down.Size = new System.Drawing.Size(31, 12);
             this.label_Down.TabIndex = 4;
-            this.label_Down.Text = "Down:";
+            this.label_Down.Text = "降下:";
             // 
             // groupBox1
             // 
@@ -136,7 +136,7 @@
             this.groupBox1.Size = new System.Drawing.Size(352, 99);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Up-Down";
+            this.groupBox1.Text = "上昇-降下";
             // 
             // groupBox2
             // 
@@ -149,7 +149,7 @@
             this.groupBox2.Size = new System.Drawing.Size(352, 99);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Left-Right";
+            this.groupBox2.Text = "左右移動:";
             // 
             // trackBar_Left
             // 
@@ -178,18 +178,18 @@
             this.label_Left.AutoSize = true;
             this.label_Left.Location = new System.Drawing.Point(7, 29);
             this.label_Left.Name = "label_Left";
-            this.label_Left.Size = new System.Drawing.Size(27, 12);
+            this.label_Left.Size = new System.Drawing.Size(43, 12);
             this.label_Left.TabIndex = 2;
-            this.label_Left.Text = "Left:";
+            this.label_Left.Text = "左移動:";
             // 
             // label_Right
             // 
             this.label_Right.AutoSize = true;
             this.label_Right.Location = new System.Drawing.Point(186, 29);
             this.label_Right.Name = "label_Right";
-            this.label_Right.Size = new System.Drawing.Size(34, 12);
+            this.label_Right.Size = new System.Drawing.Size(43, 12);
             this.label_Right.TabIndex = 4;
-            this.label_Right.Text = "Right:";
+            this.label_Right.Text = "右移動:";
             // 
             // groupBox3
             // 
@@ -202,7 +202,7 @@
             this.groupBox3.Size = new System.Drawing.Size(352, 99);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Forward-Back";
+            this.groupBox3.Text = "前進-後退";
             // 
             // trackBar_Forward
             // 
@@ -231,18 +231,18 @@
             this.label_Forward.AutoSize = true;
             this.label_Forward.Location = new System.Drawing.Point(7, 29);
             this.label_Forward.Name = "label_Forward";
-            this.label_Forward.Size = new System.Drawing.Size(48, 12);
+            this.label_Forward.Size = new System.Drawing.Size(31, 12);
             this.label_Forward.TabIndex = 2;
-            this.label_Forward.Text = "Forward:";
+            this.label_Forward.Text = "前進:";
             // 
             // label_Back
             // 
             this.label_Back.AutoSize = true;
             this.label_Back.Location = new System.Drawing.Point(186, 29);
             this.label_Back.Name = "label_Back";
-            this.label_Back.Size = new System.Drawing.Size(33, 12);
+            this.label_Back.Size = new System.Drawing.Size(31, 12);
             this.label_Back.TabIndex = 4;
-            this.label_Back.Text = "Back:";
+            this.label_Back.Text = "後退:";
             // 
             // groupBox4
             // 
@@ -255,7 +255,7 @@
             this.groupBox4.Size = new System.Drawing.Size(352, 99);
             this.groupBox4.TabIndex = 8;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Turn Left-Right";
+            this.groupBox4.Text = "左右回転";
             // 
             // trackBar_TurnLeft
             // 
@@ -284,18 +284,18 @@
             this.label_TurnLeft.AutoSize = true;
             this.label_TurnLeft.Location = new System.Drawing.Point(7, 29);
             this.label_TurnLeft.Name = "label_TurnLeft";
-            this.label_TurnLeft.Size = new System.Drawing.Size(54, 12);
+            this.label_TurnLeft.Size = new System.Drawing.Size(43, 12);
             this.label_TurnLeft.TabIndex = 2;
-            this.label_TurnLeft.Text = "Turn Left:";
+            this.label_TurnLeft.Text = "左回転:";
             // 
             // label_TurnRight
             // 
             this.label_TurnRight.AutoSize = true;
             this.label_TurnRight.Location = new System.Drawing.Point(186, 29);
             this.label_TurnRight.Name = "label_TurnRight";
-            this.label_TurnRight.Size = new System.Drawing.Size(61, 12);
+            this.label_TurnRight.Size = new System.Drawing.Size(43, 12);
             this.label_TurnRight.TabIndex = 4;
-            this.label_TurnRight.Text = "Turn Right:";
+            this.label_TurnRight.Text = "右回転:";
             // 
             // SettingForm
             // 
@@ -310,7 +310,7 @@
             this.Controls.Add(this.buttonSave);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SettingForm";
-            this.Text = "Drone Setting";
+            this.Text = "コントローラー設定";
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Up)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Down)).EndInit();
             this.groupBox1.ResumeLayout(false);

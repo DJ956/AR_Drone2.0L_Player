@@ -113,9 +113,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Codec\AviWriter.cs" />
+    <Compile Include="Codec\RiffFile.cs" />
     <Compile Include="ControllerCommand\Command\BackCommand.cs" />
     <Compile Include="ControllerCommand\Command\ControllerCommand.cs" />
     <Compile Include="ControllerCommand\ControllerNofFoundException.cs" />
+    <Compile Include="ControllerCommand\ControllerSetting.cs" />
     <Compile Include="ControllerCommand\ControllerValues.cs" />
     <Compile Include="ControllerCommand\Command\DownCommand.cs" />
     <Compile Include="ControllerCommand\Command\FlatTrimCommand.cs" />
