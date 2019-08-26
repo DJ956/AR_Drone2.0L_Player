@@ -13,7 +13,7 @@ namespace AR_Drone2._0L_Player.ControllerCommand
     public class ControllerSetting
     {
         private static readonly string FOLDER_NAME = "ArDrone2.0";
-        private static readonly string FILE_NAME = "ArDrone.xml";
+        private static readonly string FILE_NAME = "Controller.xml";
 
         private static readonly string ROOT =
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), FOLDER_NAME);
@@ -43,7 +43,13 @@ namespace AR_Drone2._0L_Player.ControllerCommand
             TurnRightMax = turnRightMax;
         }
 
+        public ControllerSetting() { }
 
+        /// <summary>
+        /// コントローラー設定値をXMLに保存する
+        /// パスはドキュメントフォルダ内
+        /// </summary>
+        /// <param name="setting"></param>
         public static void Save(ControllerSetting setting)
         {
             if (!Directory.Exists(ROOT)) { Directory.CreateDirectory(ROOT); }
@@ -56,8 +62,19 @@ namespace AR_Drone2._0L_Player.ControllerCommand
             }
         }
 
+        /// <summary>
+        /// コントローラーの設定値ファイルを読み込む
+        /// </summary>
+        /// <returns></returns>
         public static ControllerSetting Load()
         {
+            //ファイルが存在しなければ作成
+            if (!File.Exists(PATH))
+            {
+                var setting = new ControllerSetting(0.5f, -0.5f, -0.1f, 0.1f, -0.25f, 0.25f, 0.5f, -0.5f);
+                Save(setting);
+            }
+
             var serializer = new XmlSerializer(typeof(ControllerSetting));
             using (var reader = new StreamReader(PATH, Encoding.UTF8))
             using (var xmlReader = XmlReader.Create(reader, new XmlReaderSettings() { CheckCharacters = false }))

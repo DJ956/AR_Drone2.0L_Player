@@ -38,17 +38,9 @@ namespace AR.Drone.WinApp
         private Autopilot _autopilot;
 
         private GameController gameController;
+        private ControllerSetting cntSetting;
         private ControllerValues values;
         private Timer controllerTimer;
-
-        private float upMax;
-        private float downMax;
-        private float leftMax;
-        private float rightMax;
-        private float forwardMax;
-        private float backMax;
-        private float turnLeftMax;
-        private float turnRightMax;
 
         public MainForm()
         {
@@ -70,7 +62,7 @@ namespace AR.Drone.WinApp
             values = new ControllerValues(-2, -1, -1, -1, -1);
             _playerForms = new List<PlayerForm>();
 
-            LoadControllerSetting();
+            cntSetting = ControllerSetting.Load();
 
             try
             {
@@ -102,21 +94,6 @@ namespace AR.Drone.WinApp
         private float Map(float x, float in_min, float in_max, float out_min, float out_max)
         {
             return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-        }
-
-        /// <summary>
-        /// コントローラーのアナログ値の設定を読み込む
-        /// </summary>
-        private void LoadControllerSetting()
-        {
-            upMax = AR_Drone2._0L_Player.Properties.Settings.Default.UpMax;
-            downMax = AR_Drone2._0L_Player.Properties.Settings.Default.DownMax;
-            leftMax = AR_Drone2._0L_Player.Properties.Settings.Default.LeftMax;
-            rightMax = AR_Drone2._0L_Player.Properties.Settings.Default.RightMax;
-            forwardMax = AR_Drone2._0L_Player.Properties.Settings.Default.ForwardMax;
-            backMax = AR_Drone2._0L_Player.Properties.Settings.Default.BackMax;
-            turnLeftMax = AR_Drone2._0L_Player.Properties.Settings.Default.TurnLeftMax;
-            turnRightMax = AR_Drone2._0L_Player.Properties.Settings.Default.TurnRightMax;
         }
 
         /// <summary>
@@ -221,13 +198,13 @@ namespace AR.Drone.WinApp
         /// 上昇コマンド
         /// </summary>
         /// <param name="values"></param>
-        private void OnUp(ControllerValues values) { _droneClient.Progress(FlightMode.Progressive, gaz: upMax); }
+        private void OnUp(ControllerValues values) { _droneClient.Progress(FlightMode.Progressive, gaz: cntSetting.UpMax); }
         
         /// <summary>
         /// 降下コマンド
         /// </summary>
         /// <param name="values"></param>
-        private void OnDown(ControllerValues values) { _droneClient.Progress(FlightMode.Progressive, gaz: downMax); }
+        private void OnDown(ControllerValues values) { _droneClient.Progress(FlightMode.Progressive, gaz: cntSetting.DownMax); }
 
         /// <summary>
         /// 左に移動 反応しない
@@ -235,7 +212,7 @@ namespace AR.Drone.WinApp
         /// <param name="values"></param>
         private void OnLeft(ControllerValues values)
         {
-            var roll = Map(values.X, LeftCommand.MIN, LeftCommand.MAX, 0, leftMax);
+            var roll = Map(values.X, LeftCommand.MIN, LeftCommand.MAX, 0, cntSetting.LeftMax);
             _droneClient.Progress(FlightMode.Progressive, roll: roll);
         }
 
@@ -245,7 +222,7 @@ namespace AR.Drone.WinApp
         /// <param name="values"></param>
         private void OnRight(ControllerValues values)
         {
-            var roll = Map(values.X, RightCommand.MIN, RightCommand.MAX, 0, rightMax);
+            var roll = Map(values.X, RightCommand.MIN, RightCommand.MAX, 0, cntSetting.RightMax);
             _droneClient.Progress(FlightMode.Progressive, roll: roll);
         }
 
@@ -255,7 +232,7 @@ namespace AR.Drone.WinApp
         /// <param name="values"></param>
         private void OnForward(ControllerValues values)
         {
-            var pitch = Map(values.Y, ForwardCommand.MIN, ForwardCommand.MAX, 0, forwardMax);
+            var pitch = Map(values.Y, ForwardCommand.MIN, ForwardCommand.MAX, 0, cntSetting.ForwardMax);
             _droneClient.Progress(FlightMode.Progressive, pitch: pitch);
         }
 
@@ -265,7 +242,7 @@ namespace AR.Drone.WinApp
         /// <param name="values"></param>
         private void OnBack(ControllerValues values)
         {
-            var pitch = Map(values.Y, BackCommand.MIN, BackCommand.MAX, 0, backMax);
+            var pitch = Map(values.Y, BackCommand.MIN, BackCommand.MAX, 0, cntSetting.BackMax);
             _droneClient.Progress(FlightMode.Progressive, pitch: pitch);
         }
 
@@ -275,7 +252,7 @@ namespace AR.Drone.WinApp
         /// <param name="values"></param>
         private void OnTurnLeft(ControllerValues values)
         {
-            var yaw = Map(values.LeftZ, TurnLeftCommand.MIN, TurnLeftCommand.MAX, 0, turnLeftMax);
+            var yaw = Map(values.LeftZ, TurnLeftCommand.MIN, TurnLeftCommand.MAX, 0, cntSetting.TurnLeftMax);
             _droneClient.Progress(FlightMode.Progressive, yaw: yaw);
         }
 
@@ -285,7 +262,7 @@ namespace AR.Drone.WinApp
         /// <param name="values"></param>
         private void OnTurnRight(ControllerValues values)
         {
-            var yaw = Map(values.LeftZ, TurnRightCommand.MIN, TurnRightCommand.MAX, 0, turnRightMax);
+            var yaw = Map(values.LeftZ, TurnRightCommand.MIN, TurnRightCommand.MAX, 0, cntSetting.TurnRightMax);
             _droneClient.Progress(FlightMode.Progressive, yaw: yaw);
         }
 
@@ -674,7 +651,7 @@ namespace AR.Drone.WinApp
         {
             var settingForm = new SettingForm();
             settingForm.ShowDialog();
-            LoadControllerSetting();
+            cntSetting = ControllerSetting.Load();
         }
 
         private void ExitMenuItem_Click(object sender, EventArgs e) { this.Close(); }

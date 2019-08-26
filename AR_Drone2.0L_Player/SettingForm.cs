@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AR_Drone2._0L_Player.ControllerCommand;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,6 +17,8 @@ namespace AR_Drone2._0L_Player
 
         private List<Label> labels;
 
+        private ControllerSetting cntSetting;
+
         public SettingForm()
         {
             InitializeComponent();
@@ -30,19 +33,15 @@ namespace AR_Drone2._0L_Player
             labels.Add(label_TurnLeft);
             labels.Add(label_TurnRight);
 
-            LoadSetting();
-        }
-
-        private void LoadSetting()
-        {
-            trackBar_Up.Value = (int)(Properties.Settings.Default.UpMax * X);
-            trackBar_Down.Value = (int)(Properties.Settings.Default.DownMax * X);
-            trackBar_Left.Value = (int)(Properties.Settings.Default.LeftMax * X);
-            trackBar_Right.Value = (int)(Properties.Settings.Default.RightMax * X);
-            trackBar_TurnLeft.Value = (int)(Properties.Settings.Default.TurnLeftMax * X);
-            trackBar_TurnRight.Value = (int)(Properties.Settings.Default.TurnRightMax * X);
-            trackBar_Forward.Value = (int)(Properties.Settings.Default.ForwardMax * X);
-            trackBar_Back.Value = (int)(Properties.Settings.Default.BackMax * X);
+            cntSetting = ControllerSetting.Load();
+            trackBar_Up.Value = (int)(cntSetting.UpMax * X);
+            trackBar_Down.Value = (int)(cntSetting.DownMax * X);
+            trackBar_Left.Value = (int)(cntSetting.LeftMax * X);
+            trackBar_Right.Value = (int)(cntSetting.RightMax * X);
+            trackBar_TurnLeft.Value = (int)(cntSetting.TurnLeftMax * X);
+            trackBar_TurnRight.Value = (int)(cntSetting.TurnRightMax * X);
+            trackBar_Forward.Value = (int)(cntSetting.ForwardMax * X);
+            trackBar_Back.Value = (int)(cntSetting.BackMax * X);
         }
 
         private void trackBarValueChange(object sender, EventArgs e)
@@ -75,16 +74,16 @@ namespace AR_Drone2._0L_Player
             var turnLeftMax = (float)trackBar_TurnLeft.Value / X;
             var turnRightMax = (float)trackBar_TurnRight.Value / X;
 
-            Properties.Settings.Default.UpMax = upMax;
-            Properties.Settings.Default.DownMax = downMax;
-            Properties.Settings.Default.LeftMax = leftMax;
-            Properties.Settings.Default.RightMax = rightMax;
-            Properties.Settings.Default.ForwardMax = forwardMax;
-            Properties.Settings.Default.BackMax = backMax;
-            Properties.Settings.Default.TurnLeftMax = turnLeftMax;
-            Properties.Settings.Default.TurnRightMax = turnRightMax;
-            
-            Properties.Settings.Default.Save();
+            cntSetting.UpMax = upMax;
+            cntSetting.DownMax = downMax;
+            cntSetting.LeftMax = leftMax;
+            cntSetting.RightMax = rightMax;
+            cntSetting.ForwardMax = forwardMax;
+            cntSetting.BackMax = backMax;
+            cntSetting.TurnLeftMax = turnLeftMax;
+            cntSetting.TurnRightMax = turnRightMax;
+
+            ControllerSetting.Save(cntSetting);
 
             this.Close();
         }

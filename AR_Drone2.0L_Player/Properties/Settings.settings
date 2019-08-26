@@ -1,33 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="AR_Drone2._0L_Player.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
   <Profiles />
-  <Settings>
-    <Setting Name="UpMax" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0.5</Value>
-    </Setting>
-    <Setting Name="DownMax" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">-0.5</Value>
-    </Setting>
-    <Setting Name="LeftMax" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">-0.1</Value>
-    </Setting>
-    <Setting Name="RightMax" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0.1</Value>
-    </Setting>
-    <Setting Name="ForwardMax" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">-0.25</Value>
-    </Setting>
-    <Setting Name="BackMax" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0.25</Value>
-    </Setting>
-    <Setting Name="TurnLeftMax" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0.5</Value>
-    </Setting>
-    <Setting Name="TurnRightMax" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">-0.5</Value>
-    </Setting>
-    <Setting Name="設定" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-  </Settings>
+  <Settings />
 </SettingsFile>
