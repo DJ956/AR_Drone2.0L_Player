@@ -18,6 +18,8 @@ namespace AR.Drone.WinApp
         private Decoder decoder;
         private AviWriter aviWriter;
 
+        private int packetCount;
+
         private Queue<VideoPacket> videoPackets;
         private Queue<NavigationPacket> navigationPackets;
 
@@ -75,6 +77,7 @@ namespace AR.Drone.WinApp
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            navigationPackets.Clear();
             Close();
         }
 
@@ -98,13 +101,24 @@ namespace AR.Drone.WinApp
             if (dialog.ShowDialog() == DialogResult.OK) { textBoxSavePath.Text = dialog.FileName; }
         }
 
-        private void ButtonSave_Click(object sender, EventArgs e)
+        private async void ButtonSave_Click(object sender, EventArgs e)
         {
             if(textBoxSavePath.Text == "") { buttonSaveDialog.PerformClick(); }
             if (_filePlayer == null) _filePlayer = new FilePlayer(_fileName, OnNavigationPacketAcquired, OnVideoPacketAcquired);
             _filePlayer.UnhandledException += UnhandledException;
 
             _filePlayer.LoadVideoFile(ref navigationPackets, ref videoPackets);
+            packetCount = videoPackets.Count;
+
+            var progress = new Progress<int>(UpdateProgress);
+            await Task.Run(()=> EncodeToAvi(videoPackets, progress));
+
+            MessageBox.Show($"保存完了しました : {textBoxSavePath.Text}",
+                "Aviファイル作成完了", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void EncodeToAvi(Queue<VideoPacket> packets, IProgress<int> progress)
+        {
             var packet = videoPackets.Peek();
             var width = packet.Width;
             var height = packet.Height;
@@ -112,19 +126,26 @@ namespace AR.Drone.WinApp
             using (var stream = new FileStream(textBoxSavePath.Text, FileMode.Create))
             {
                 aviWriter = new AviWriter(stream, "H264", width, height, 20);
+                var i = 0;
                 while (videoPackets.Any())
                 {
                     packet = videoPackets.Dequeue();
                     aviWriter.AddImage(packet.Data, false);
+                    i++;
+                    progress.Report(i);
                 }
 
                 aviWriter.Close();
             }
 
             videoPackets.Clear();
+        }
 
-            MessageBox.Show($"保存完了しました : {textBoxSavePath.Text}",
-                "Aviファイル作成完了", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        private void UpdateProgress(int i)
+        {
+            double value = (double)i / packetCount * 100;
+            labelProgress.Text = $"エンコード:{(int)value}%";
+            progressBar.Value = (int)value;
         }
     }
 }

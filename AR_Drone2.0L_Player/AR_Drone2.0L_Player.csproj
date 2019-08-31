@@ -26,7 +26,7 @@
     <ProductName>ARDrone2.0LPlayer</ProductName>
     <PublisherName>DJ956</PublisherName>
     <SuiteName>ARDrone2.0LPlayer</SuiteName>
-    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationRevision>10</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
